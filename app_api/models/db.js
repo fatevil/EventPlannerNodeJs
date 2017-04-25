@@ -41,4 +41,4 @@ process.on('SIGTERM', function() {
 
 // BRING IN YOUR SCHEMAS & MODELS
 require('./users');
-require('./events');
+require('./event');
