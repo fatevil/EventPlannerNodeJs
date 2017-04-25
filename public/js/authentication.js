@@ -9,10 +9,8 @@ const getToken = function() {
 const isLoggedIn = function() {
     const token = getToken();
     let payload;
-
-    if (token) {
+    if (token !== 'undefined') {
         payload = token.split('.')[1];
-        console.log(token);
         payload = window.atob(payload);
         payload = JSON.parse(payload);
 
@@ -25,7 +23,7 @@ const isLoggedIn = function() {
 const currentUser = function() {
     if (isLoggedIn()) {
         const token = getToken();
-        const payload = token.split('.')[1];
+        let payload = token.split('.')[1];
         payload = window.atob(payload);
         payload = JSON.parse(payload);
         return {
@@ -35,27 +33,24 @@ const currentUser = function() {
     }
 };
 
-const register = function(user) {
-    return $http.post('/api/register', user).success(function(data) {
+const register = function(formData) {
+    return fetch('/api/register', {
+        method: 'POST',
+        body: formData,
+    }).then(function(data) {
+        return data.json();
+    }).then(function(data) {
         saveToken(data.token);
     });
 };
 
 const login = function(formData) {
-
-
-    const options = {
+    return fetch('/api/login', {
         method: 'POST',
-        //body: JSON.stringify(formData),
         body: formData,
-        headers: {
-            //"Content-Type": "application/json"
-        }
-    };
-    return fetch('/api/login', options).then(function(data) {
+    }).then(function(data) {
         return data.json();
     }).then(function(data) {
-        //console.log(data);
         saveToken(data.token);
     });
 };

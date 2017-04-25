@@ -1,7 +1,7 @@
-var express = require('express');
-var router = express.Router();
-var jwt = require('express-jwt');
-var auth = jwt({
+const express = require('express');
+const router = express.Router();
+const jwt = require('express-jwt');
+const auth = jwt({
     secret: 'MY_SECRET',
     userProperty: 'payload'
 });
@@ -10,17 +10,17 @@ const multer = require('multer');
 const upload = multer({
     dest: 'public/images/',
 });
-
-var ctrlProfile = require('../controllers/profile');
-var ctrlEvents = require('../controllers/events');
-var ctrlAuth = require('../controllers/authentication');
+const ctrlProfile = require('../controllers/profile');
+const ctrlEvents = require('../controllers/events');
+const ctrlAuth = require('../controllers/authentication');
 
 // profile
+router.get('/events', auth, ctrlEvents.userEvents);
 router.get('/profile', auth, ctrlProfile.profileRead);
-router.get('/profile/events', auth, ctrlEvents.currentUserEvents);
+
 
 // authentication
-router.post('/register', ctrlAuth.register);
+router.post('/register', upload.array(), ctrlAuth.register);
 router.post('/login', upload.array(), ctrlAuth.login);
 
 module.exports = router;

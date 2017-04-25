@@ -8,16 +8,16 @@ const sendJSONresponse = function(res, status, content) {
 };
 
 module.exports.register = function(req, res) {
+    // check if the form contains all the neccessary fields
+    if (!req.body.name || !req.body.email || !req.body.password) {
+        sendJSONresponse(res, 400, {
+            "message": "All fields required"
+        });
+        return;
+    }
 
-    // if(!req.body.name || !req.body.email || !req.body.password) {
-    //   sendJSONresponse(res, 400, {
-    //     "message": "All fields required"
-    //   });
-    //   return;
-    // }
-
+    // create user and save it
     var user = new User();
-
     user.name = req.body.name;
     user.email = req.body.email;
     user.attending_events = [];
