@@ -1,0 +1,1 @@
+//$('currentUserLink').text(currentUser().name);
