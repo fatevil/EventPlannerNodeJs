@@ -41,6 +41,9 @@
             <label class="col-sm-3 control-label">Email</label>
             <p class="form-control-static" id="emailParagraph"></p>
             </div>
+            <label class="col-sm-3 control-label">Attending</label>
+            <div id="attendingDiv" class="form-group">
+            </div>
             <label class="col-sm-3 control-label">Events</label>
             <div id="eventsDiv" class="form-group">
             </div>
@@ -57,17 +60,35 @@
   <script src="js/events.js"></script>
   <script>
         
-        const user = currentUser();
-        $('#nameParagraph').text(user.name);
-        $('#emailParagraph').text(user.email);
-        
-        fetchMyEvents()
+        /*
+        createRandomEvent()
             .then(function(res) {
-                console.log(res);
+                //console.log(res);
             })
             .catch(function(err){
                 console.log(err);
             });
+*/
+
+        fetchMyEvents()
+            .then(function(res) {
+                //console.log(res);
+                res.forEach((event) => {
+                  $('#eventsDiv').append(`${event.title}  <br>`);
+                });
+                
+            })
+            .catch(function(err){
+                console.log(err);
+            });
+
+
+        const user = fetchCurrentUser().then(function(data) {
+          console.log(data);
+          $('#nameParagraph').text(data.name);
+          $('#emailParagraph').text(data.email);
+          $('#attendingDiv').text(data.attending_events);
+        });
 
   </script>
 </body>

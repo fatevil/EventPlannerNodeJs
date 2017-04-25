@@ -19,7 +19,7 @@ router.get('/events', auth, ctrlEvent.currentUserEvents);
 router.get('/profile', auth, ctrlProfile.profileRead);
 
 // event
-//router.post('/events', auth, ctrlEvent.currentEvents);
+router.get('/events/random', auth, ctrlEvent.createRandomEvent);
 
 
 // authentication
