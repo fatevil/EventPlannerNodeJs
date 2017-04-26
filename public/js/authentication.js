@@ -68,5 +68,5 @@ const login = function(formData) {
 };
 
 const logout = function() {
-    $window.localStorage.removeItem('mean-token');
+    window.localStorage.removeItem('mean-token');
 };

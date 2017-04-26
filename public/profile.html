@@ -83,11 +83,11 @@
             });
 
 
-        const user = fetchCurrentUser().then(function(data) {
-          console.log(data);
-          $('#nameParagraph').text(data.name);
-          $('#emailParagraph').text(data.email);
-          $('#attendingDiv').text(data.attending_events);
+          const user = fetchCurrentUser().then(function(data) {
+            //console.log(data);
+            $('#nameParagraph').text(data.name);
+            $('#emailParagraph').text(data.email);
+            $('#attendingDiv').text(data.attending_events);
         });
 
   </script>

@@ -1,5 +1,5 @@
 const fetchMyEvents = function() {
-    return fetch('/api/events', {
+    return fetch('/api/profile/events', {
         method: 'GET',
         headers: {
             Authorization: 'Bearer ' + getToken()
@@ -16,8 +16,21 @@ const createRandomEvent = function() {
             Authorization: 'Bearer ' + getToken()
         }
     }).then(function(data) {
+        return data.json();
+    });
+};
+
+
+const createEvent = function(formData) {
+    return fetch('/api/events', {
+        method: 'POST',
+        headers: {
+            Authorization: 'Bearer ' + getToken()
+        },
+        body: formData
+    }).then(function(data) {
         console.log(data);
-        console.log("response events random");
+        console.log("created event!");
         return data.json();
     });
 };

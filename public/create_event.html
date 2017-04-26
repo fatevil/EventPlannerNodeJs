@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Event planner</title>
+  <base href="/">
+  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-theme.min.css">
+
+</head>
+<body ng-view>
+
+  <div class="navbar navbar-default">
+    <div class="container">
+      <div id="navbar-main">
+        <ul class="nav navbar-nav">
+          <li><a href="/">Home</a></li>
+          <li><a href="/events.html">Events</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/login.html">Sign in</a></li>
+          <li><a href="/profile.html"></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+    <div class="container">
+        <div class="row">
+            
+            <div class="col-md-6">
+
+            <h1 class="form-signin-heading">Your profile</h1>
+
+            <form  class="form-horizontal">
+                <div class="container">
+                    <form id="createEventForm">
+                            <div class="form-group">
+                                <label for="inputTitle">Title</label>
+                                <input id="inputTitle" type="text" class="form-control" name="title" placeholder="Enter title">
+                            </div>
+                            <button id="createEventSubmit" type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div> 
+                <label class="col-sm-3 control-label">Events</label>
+                <div id="eventsDiv" class="form-group">
+                </div>
+            </form>
+
+            </div>
+
+        </div>
+    </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="js/authentication.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/events.js"></script>
+  <script>
+        
+        fetchMyEvents()
+            .then(function(res) {
+                //console.log(res);
+                res.forEach((event) => {
+                  $('#eventsDiv').prepend(`${event.title}  <br>`);
+                });
+            })
+            .catch(function(err){
+                console.log(err);
+            });
+
+        $('#createEventSubmit').on('click', function (event) {
+            event.preventDefault();
+
+            const formData = new FormData();
+            formData.append('title', $('#inputTitle').val());
+
+            createEvent(formData)
+                .then(function(res) {
+                    console.log(res);
+                    $('#eventsDiv').prepend(`${res.title}  <br>`);
+                })
+                .catch(function(err) {
+                    console.log(err);
+                });
+                
+        });
+
+  </script>
+</body>
+</html>
