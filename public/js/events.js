@@ -9,6 +9,17 @@ const fetchMyEvents = function() {
     });
 };
 
+const fetchEventById = function(id) {
+    return fetch(`/api/event/${id}`, {
+        method: 'GET',
+        headers: {
+            Authorization: 'Bearer ' + getToken()
+        }
+    }).then(function(data) {
+        return data.json();
+    });
+};
+
 const createRandomEvent = function() {
     return fetch('/api/events/random', {
         method: 'GET',
@@ -29,8 +40,21 @@ const createEvent = function(formData) {
         },
         body: formData
     }).then(function(data) {
+        return data.json();
+    });
+};
+
+
+
+const attendEvent = function(id) {
+    return fetch(`/api/event/${id}/attend`, {
+        method: 'GET',
+        headers: {
+            Authorization: 'Bearer ' + getToken()
+        }
+    }).then(function(data) {
         console.log(data);
-        console.log("created event!");
+        console.log("attended an event!");
         return data.json();
     });
 };

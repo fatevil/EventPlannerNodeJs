@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Event planner</title>
+  <base href="/">
+  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-theme.min.css">
+
+</head>
+<body ng-view>
+
+  <div class="navbar navbar-default">
+    <div class="container">
+      <div id="navbar-main">
+        <ul class="nav navbar-nav">
+          <li><a href="/">Home</a></li>
+          <li><a href="/events.html">Events</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/login.html">Sign in</a></li>
+          <li><a href="/profile.html"></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+    <div class="container">
+        <div class="row">
+            
+            <div class="col-md-6">
+
+                <h1 class="form-signin-heading">Event</h1>
+
+                <form  class="form-horizontal">
+                    <div class="form-group">
+                    <label class="col-sm-3 control-label">Title</label>
+                    <p class="form-control-static" id="titleParagraph"></p>
+                    </div>
+                    <button id="attendEvent" class="btn btn-primary">Attend</button>
+                    <hr>
+                    <label class="col-sm-3 control-label">Attending people</label>
+                    <div id="attendingPeopleDiv" class="form-group">
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="js/authentication.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/events.js"></script>
+  <script>
+        
+        fetchMyEvents()
+            .then(function(res) {
+                //console.log(res);
+                res.forEach((event) => {
+                  $('#eventsDiv').append(`${event.title} <a href="/event.html?_id=${event._id}">link</a> <br>`);
+                });
+            })
+            .catch(function(err){
+                console.log(err);
+            });
+
+        const eventId = getUrlParameter('_id');
+        if (eventId) {
+            fetchEventById(eventId)
+                .then(function(event){
+                    console.log(event);
+                    $('#titleParagraph').text(event.title);
+
+                    event.attending.forEach((id) => {
+                        $('#attendingPeopleDiv').append(`${id} <br>`);
+                    });
+
+                })
+                .catch(function(err){
+                    console.log(err);
+                });
+        }
+
+        // id taken from url
+        $('#attendEvent').on('click', function() {
+            attendEvent(eventId)
+                .then(function(result) {
+                    console.log(result);
+                })
+                .catch(function(err) {
+                    console.log(err);
+                });
+        });
+
+
+  </script>
+</body>
+</html>

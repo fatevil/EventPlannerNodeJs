@@ -44,6 +44,9 @@
             <label class="col-sm-3 control-label">Attending</label>
             <div id="attendingDiv" class="form-group">
             </div>
+            <label class="col-sm-3 control-label">Hosting</label>
+            <div id="hostingDiv" class="form-group">
+            </div>
             <label class="col-sm-3 control-label">Events</label>
             <div id="eventsDiv" class="form-group">
             </div>
@@ -74,9 +77,8 @@
             .then(function(res) {
                 //console.log(res);
                 res.forEach((event) => {
-                  $('#eventsDiv').append(`${event.title}  <br>`);
+                  $('#eventsDiv').prepend(`${event.title} <a href="/event.html?_id=${event._id}">link</a> <br>`);
                 });
-                
             })
             .catch(function(err){
                 console.log(err);
@@ -88,6 +90,8 @@
             $('#nameParagraph').text(data.name);
             $('#emailParagraph').text(data.email);
             $('#attendingDiv').text(data.attending_events);
+            $('#hostingDiv').text(data.hosting_events);
+
         });
 
   </script>

@@ -61,7 +61,7 @@
             .then(function(res) {
                 //console.log(res);
                 res.forEach((event) => {
-                  $('#eventsDiv').prepend(`${event.title}  <br>`);
+                  $('#eventsDiv').prepend(`${event.title} <a href="/event.html?_id=${event._id}">link</a> <br>`);
                 });
             })
             .catch(function(err){
@@ -77,7 +77,7 @@
             createEvent(formData)
                 .then(function(res) {
                     console.log(res);
-                    $('#eventsDiv').prepend(`${res.title}  <br>`);
+                  $('#eventsDiv').append(`${event.title} <a href="/event.html?_id=${event._id}">link</a> <br>`);
                 })
                 .catch(function(err) {
                     console.log(err);

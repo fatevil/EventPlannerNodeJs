@@ -18,9 +18,11 @@ const ctrlAuth = require('../controllers/authentication');
 router.get('/profile/events', auth, ctrlEvent.currentUserEvents);
 router.get('/profile', auth, ctrlProfile.profileRead);
 
-// event
+// events
 router.get('/events/random', auth, ctrlEvent.createRandomEvent);
 router.post('/events', upload.array(), auth, ctrlEvent.createEvent);
+router.get('/event/:id', auth, ctrlEvent.getEvent);
+router.get('/event/:id/attend', auth, ctrlEvent.attendEvent);
 
 
 // authentication

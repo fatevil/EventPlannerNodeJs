@@ -33,7 +33,7 @@ module.exports.createRandomEvent = function(req, res) {
         User
             .findById(req.payload._id)
             .exec(function(err, user) {
-                User.update({ _id: req.payload._id }, { $push: { attending_events: event._id } }, function(err, result) {
+                User.update({ _id: req.payload._id }, { $push: { hosting_events: event._id } }, function(err, result) {
                     if (err) {
                         console.log(err);
                         res.status(500).json({ "message": "Internall error" });
@@ -57,19 +57,81 @@ module.exports.createEvent = function(req, res) {
         const event = new Event();
         event.title = req.body.title;
         event.created_by = req.payload._id;
-        event.attending = [];
+        event.attending = [req.payload._id];
 
         event.save();
         User
             .findById(req.payload._id)
             .exec(function(err, user) {
-                User.update({ _id: req.payload._id }, { $push: { attending_events: event._id } }, function(err, result) {
+                User.update({ _id: req.payload._id }, { $push: { hosting_events: event._id, attending_events: event._id } },
+                    function(err, result) {
+                        if (err) {
+                            console.log(err);
+                            res.status(500).json({ "message": "Internall error" });
+                            return;
+                        }
+                        res.status(200).json(event);
+                    })
+            });
+
+    }
+};
+
+
+module.exports.getEvent = function(req, res) {
+    if (!req.payload._id) {
+        res.status(401).json({
+            "message": "UnauthorizedError: private profile"
+        });
+    } else {
+        const eventId = req.params.id;
+        Event
+            .findById(eventId)
+            .exec(function(err, event) {
+                if (err) {
+                    console.log(err);
+                    res.status(500).json({ "message": "Internall error" });
+                    return;
+                }
+                res.status(200).json(event);
+            });
+
+    }
+};
+
+
+module.exports.attendEvent = function(req, res) {
+    if (!req.payload._id) {
+        res.status(401).json({
+            "message": "UnauthorizedError: private profile"
+        });
+    } else {
+        const eventId = req.params.id;
+        const userId = req.payload._id;
+        console.log(userId);
+        console.log(eventId);
+        Event
+            .findById(eventId)
+            .exec(function(err, event) {
+                Event.update({ _id: eventId }, { $push: { attending: userId } }, function(err, result) {
                     if (err) {
                         console.log(err);
                         res.status(500).json({ "message": "Internall error" });
                         return;
                     }
-                    res.status(200).json(event);
+                })
+            });
+
+        User
+            .findById(userId)
+            .exec(function(err, user) {
+                User.update({ _id: userId }, { $push: { attending_events: eventId } }, function(err, result) {
+                    if (err) {
+                        console.log(err);
+                        res.status(500).json({ "message": "Internall error" });
+                        return;
+                    }
+                    res.status(200).json(result);
                 })
             });
 
