@@ -1,5 +1,5 @@
-const fetchMyEvents = function() {
-    return fetch('/api/profile/events', {
+const fetchAllEvents = function() {
+    return fetch('/api/events', {
         method: 'GET',
         headers: {
             Authorization: 'Bearer ' + getToken()

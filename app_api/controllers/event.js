@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Event = mongoose.model('Event');
 const User = mongoose.model('User');
 
-module.exports.currentUserEvents = function(req, res) {
+module.exports.allEvents = function(req, res) {
     //console.log("Check events API!");
     if (!req.payload._id) {
         res.status(401).json({
@@ -10,7 +10,7 @@ module.exports.currentUserEvents = function(req, res) {
         });
     } else {
         Event
-            .where('created_by', req.payload._id)
+            .find()
             .exec(function(err, data) {
                 res.status(200).json(data);
             });
@@ -53,6 +53,7 @@ module.exports.createEvent = function(req, res) {
     } else {
         console.log(req.body);
         console.log(req.body.title);
+        console.log(req.payload._id);
 
         const event = new Event();
         event.title = req.body.title;

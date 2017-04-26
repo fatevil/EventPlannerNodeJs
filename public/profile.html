@@ -47,7 +47,8 @@
             <label class="col-sm-3 control-label">Hosting</label>
             <div id="hostingDiv" class="form-group">
             </div>
-            <label class="col-sm-3 control-label">Events</label>
+            <hr>
+            <label class="col-sm-3 control-label">All Events</label>
             <div id="eventsDiv" class="form-group">
             </div>
         </form>
@@ -73,7 +74,7 @@
             });
 */
 
-        fetchMyEvents()
+        fetchAllEvents()
             .then(function(res) {
                 //console.log(res);
                 res.forEach((event) => {

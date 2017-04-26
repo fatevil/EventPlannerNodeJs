@@ -55,7 +55,7 @@
   <script src="js/events.js"></script>
   <script>
         
-        fetchMyEvents()
+        fetchAllEvents()
             .then(function(res) {
                 //console.log(res);
                 res.forEach((event) => {
@@ -70,7 +70,7 @@
         if (eventId) {
             fetchEventById(eventId)
                 .then(function(event){
-                    console.log(event);
+                    //console.log(event);
                     $('#titleParagraph').text(event.title);
 
                     event.attending.forEach((id) => {
@@ -87,7 +87,7 @@
         $('#attendEvent').on('click', function() {
             attendEvent(eventId)
                 .then(function(result) {
-                    console.log(result);
+                    //console.log(result);
                 })
                 .catch(function(err) {
                     console.log(err);
@@ -98,7 +98,7 @@
         $('#unattendEvent').on('click', function() {
             unattendEvent(eventId)
                 .then(function(result) {
-                    console.log(result);
+                    //console.log(result);
                 })
                 .catch(function(err) {
                     console.log(err);

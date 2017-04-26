@@ -15,10 +15,10 @@ const ctrlProfile = require('../controllers/profile');
 const ctrlAuth = require('../controllers/authentication');
 
 // profile
-router.get('/profile/events', auth, ctrlEvent.currentUserEvents);
 router.get('/profile', auth, ctrlProfile.profileRead);
 
 // events
+router.get('/events', auth, ctrlEvent.allEvents);
 router.get('/events/random', auth, ctrlEvent.createRandomEvent);
 router.post('/events', upload.array(), auth, ctrlEvent.createEvent);
 router.get('/event/:id', auth, ctrlEvent.getEvent);
