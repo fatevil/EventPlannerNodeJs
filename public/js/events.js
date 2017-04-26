@@ -53,8 +53,17 @@ const attendEvent = function(id) {
             Authorization: 'Bearer ' + getToken()
         }
     }).then(function(data) {
-        console.log(data);
-        console.log("attended an event!");
+        return data.json();
+    });
+};
+
+const unattendEvent = function(id) {
+    return fetch(`/api/event/${id}/unattend`, {
+        method: 'GET',
+        headers: {
+            Authorization: 'Bearer ' + getToken()
+        }
+    }).then(function(data) {
         return data.json();
     });
 };

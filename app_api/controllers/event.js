@@ -33,7 +33,7 @@ module.exports.createRandomEvent = function(req, res) {
         User
             .findById(req.payload._id)
             .exec(function(err, user) {
-                User.update({ _id: req.payload._id }, { $push: { hosting_events: event._id } }, function(err, result) {
+                User.update({ _id: req.payload._id }, { $addToSet: { hosting_events: event._id } }, function(err, result) {
                     if (err) {
                         console.log(err);
                         res.status(500).json({ "message": "Internall error" });
@@ -63,7 +63,7 @@ module.exports.createEvent = function(req, res) {
         User
             .findById(req.payload._id)
             .exec(function(err, user) {
-                User.update({ _id: req.payload._id }, { $push: { hosting_events: event._id, attending_events: event._id } },
+                User.update({ _id: req.payload._id }, { $addToSet: { hosting_events: event._id, attending_events: event._id } },
                     function(err, result) {
                         if (err) {
                             console.log(err);
@@ -108,12 +108,10 @@ module.exports.attendEvent = function(req, res) {
     } else {
         const eventId = req.params.id;
         const userId = req.payload._id;
-        console.log(userId);
-        console.log(eventId);
         Event
             .findById(eventId)
             .exec(function(err, event) {
-                Event.update({ _id: eventId }, { $push: { attending: userId } }, function(err, result) {
+                Event.update({ _id: eventId }, { $addToSet: { attending: userId } }, function(err, result) {
                     if (err) {
                         console.log(err);
                         res.status(500).json({ "message": "Internall error" });
@@ -125,7 +123,44 @@ module.exports.attendEvent = function(req, res) {
         User
             .findById(userId)
             .exec(function(err, user) {
-                User.update({ _id: userId }, { $push: { attending_events: eventId } }, function(err, result) {
+                User.update({ _id: userId }, { $addToSet: { attending_events: eventId } }, function(err, result) {
+                    if (err) {
+                        console.log(err);
+                        res.status(500).json({ "message": "Internall error" });
+                        return;
+                    }
+                    res.status(200).json(result);
+                })
+            });
+
+    }
+};
+
+
+module.exports.unattendEvent = function(req, res) {
+    if (!req.payload._id) {
+        res.status(401).json({
+            "message": "UnauthorizedError: private profile"
+        });
+    } else {
+        const eventId = req.params.id;
+        const userId = req.payload._id;
+        Event
+            .findById(eventId)
+            .exec(function(err, event) {
+                Event.update({ _id: eventId }, { $pull: { attending: userId } }, function(err, result) {
+                    if (err) {
+                        console.log(err);
+                        res.status(500).json({ "message": "Internall error" });
+                        return;
+                    }
+                })
+            });
+
+        User
+            .findById(userId)
+            .exec(function(err, user) {
+                User.update({ _id: userId }, { $pull: { attending_events: eventId } }, function(err, result) {
                     if (err) {
                         console.log(err);
                         res.status(500).json({ "message": "Internall error" });
