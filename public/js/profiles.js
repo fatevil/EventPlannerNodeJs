@@ -1,4 +1,4 @@
-const fetchCurrentUser = function() {
+const fetchCurrentProfile = function() {
     return fetch('/api/profile', {
         method: 'GET',
         headers: {
@@ -10,7 +10,7 @@ const fetchCurrentUser = function() {
 };
 
 
-const fetchUserById = function(id) {
+const fetchProfileById = function(id) {
     return fetch(`/api/profile/${id}`, {
         method: 'GET',
         headers: {
@@ -22,9 +22,30 @@ const fetchUserById = function(id) {
 };
 
 
+const fetchAllProfiles = function(id) {
+    return fetch(`/api/profiles`, {
+        method: 'GET',
+        headers: {
+            Authorization: 'Bearer ' + getToken()
+        }
+    }).then(function(data) {
+        return data.json();
+    });
+};
 
-const fetchAllUsers = function(id) {
-    return fetch(`/api/profile/${id}`, {
+const followProfile = function(id) {
+    return fetch(`/api/profile/${id}/follow`, {
+        method: 'GET',
+        headers: {
+            Authorization: 'Bearer ' + getToken()
+        }
+    }).then(function(data) {
+        return data.json();
+    });
+};
+
+const unfollowProfile = function(id) {
+    return fetch(`/api/profile/${id}/unfollow`, {
         method: 'GET',
         headers: {
             Authorization: 'Bearer ' + getToken()

@@ -21,6 +21,10 @@ var userSchema = new mongoose.Schema({
     hosting_events: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Event'
+    }],
+    following: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }]
 });
 

@@ -18,6 +18,8 @@ const ctrlAuth = require('../controllers/authentication');
 router.get('/profile', auth, ctrlProfile.profileRead);
 router.get('/profiles', auth, ctrlProfile.allProfilesRead);
 router.get('/profile/:id', auth, ctrlProfile.profileReadById);
+router.get('/profile/:id/follow', auth, ctrlProfile.followProfile);
+router.get('/profile/:id/unfollow', auth, ctrlProfile.unfollowProfile);
 
 
 // events

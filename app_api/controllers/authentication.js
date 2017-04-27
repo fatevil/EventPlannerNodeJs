@@ -22,6 +22,7 @@ module.exports.register = function(req, res) {
     user.email = req.body.email;
     user.attending_events = [];
     user.hosting_events = [];
+    user.following = [];
 
     user.setPassword(req.body.password);
 
