@@ -30,7 +30,7 @@
         
         <div class="col-md-6">
 
-        <h1 class="form-signin-heading">Your profile</h1>
+        <h1 class="form-signin-heading">Profile</h1>
 
         <form  class="form-horizontal">
             <div class="form-group">
@@ -62,6 +62,8 @@
   <script src="js/authentication.js"></script>
   <script src="js/common.js"></script>
   <script src="js/events.js"></script>
+  <script src="js/profiles.js"></script>
+
   <script>
         
         /*
@@ -74,26 +76,49 @@
             });
 */
 
-        fetchAllEvents()
-            .then(function(res) {
-                //console.log(res);
-                res.forEach((event) => {
-                  $('#eventsDiv').prepend(`${event.title} <a href="/event.html?_id=${event._id}">link</a> <br>`);
-                });
-            })
-            .catch(function(err){
-                console.log(err);
-            });
+            fetchAllEvents()
+              .then(function(res) {
+                  //console.log(res);
+                  res.forEach((event) => {
+                    $('#eventsDiv').prepend(`${event.title} <a href="/event.html?_id=${event._id}">link</a> <br>`);
+                  });
+              })
+              .catch(function(err){
+                  console.log(err);
+              });
 
 
-          const user = fetchCurrentUser().then(function(data) {
-            //console.log(data);
-            $('#nameParagraph').text(data.name);
-            $('#emailParagraph').text(data.email);
-            $('#attendingDiv').text(data.attending_events);
-            $('#hostingDiv').text(data.hosting_events);
 
-        });
+
+
+            // check if there's _id in url and if there is, display given user instead of the logged one
+            const profileId = getUrlParameter('_id');
+            if (profileId) {
+              fetchProfileById(profileId).then(function(event){
+                    //console.log(data);
+                    $('#nameParagraph').text(data.name);
+                    $('#emailParagraph').text(data.email);
+                    $('#attendingDiv').text(data.attending_events);
+                    $('#hostingDiv').text(data.hosting_events);
+                  })
+                  .catch(function(err){
+                      console.log(err);
+                  });
+
+                fetchCurrentUser().then(function(data) {
+                    //console.log(data);
+                    $('#nameParagraph').text(data.name);
+                    $('#emailParagraph').text(data.email);
+                    $('#attendingDiv').text(data.attending_events);
+                    $('#hostingDiv').text(data.hosting_events);
+                  })
+                  .catch(function(err){
+                        console.log(err);
+                  });
+              }
+
+
+       
 
   </script>
 </body>

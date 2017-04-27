@@ -16,6 +16,9 @@ const ctrlAuth = require('../controllers/authentication');
 
 // profile
 router.get('/profile', auth, ctrlProfile.profileRead);
+router.get('/profiles', auth, ctrlProfile.allProfilesRead);
+router.get('/profile/:id', auth, ctrlProfile.profileReadById);
+
 
 // events
 router.get('/events', auth, ctrlEvent.allEvents);

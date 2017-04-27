@@ -33,18 +33,6 @@ const currentUser = function() {
     }
 };
 
-const fetchCurrentUser = function() {
-    return fetch('/api/profile', {
-        method: 'GET',
-        headers: {
-            Authorization: 'Bearer ' + getToken()
-        }
-    }).then(function(data) {
-        return data.json();
-    });
-};
-
-
 const register = function(formData) {
     return fetch('/api/register', {
         method: 'POST',
