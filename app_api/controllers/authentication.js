@@ -1,6 +1,6 @@
-var passport = require('passport');
-var mongoose = require('mongoose');
-var User = mongoose.model('User');
+const passport = require('passport');
+const mongoose = require('mongoose');
+const User = mongoose.model('User');
 
 const sendJSONresponse = function(res, status, content) {
     res.status(status);
@@ -17,23 +17,31 @@ module.exports.register = function(req, res) {
     }
 
     // create user and save it
-    var user = new User();
+    let user = new User();
     user.name = req.body.name;
     user.email = req.body.email;
+    //user.address_lat = req.body.address_lat;
+    //user.address_lng = req.body.address_lng;
+    user.address_place = req.body.address_place;
     user.attending_events = [];
     user.hosting_events = [];
     user.following = [];
 
+    console.log(req.body);
+
     user.setPassword(req.body.password);
 
     user.save(function(err) {
-        var token;
+        let token;
         token = user.generateJwt();
         res.status(200);
         res.json({
             "token": token
         });
     });
+
+    console.log(user);
+
 
 };
 

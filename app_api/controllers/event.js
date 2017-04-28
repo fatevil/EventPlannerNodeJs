@@ -57,6 +57,7 @@ module.exports.createEvent = function(req, res) {
 
         const event = new Event();
         event.title = req.body.title;
+        event.place_address = req.body.address_place;
         event.created_by = req.payload._id;
         event.attending = [req.payload._id];
 

@@ -14,6 +14,9 @@ var userSchema = new mongoose.Schema({
     },
     hash: String,
     salt: String,
+    address_lat: Number,
+    address_lng: Number,
+    address_place: String,
     attending_events: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Event'
@@ -47,7 +50,7 @@ userSchema.methods.generateJwt = function() {
         email: this.email,
         name: this.name,
         exp: parseInt(expiry.getTime() / 1000),
-    }, "MY_SECRET"); // DO NOT KEEP YOUR SECRET IN THE CODE!
+    }, "MY_SECRET"); // TODO: REMOVE THIS
 };
 
 mongoose.model('User', userSchema);
