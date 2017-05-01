@@ -1,11 +1,13 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-var eventSchema = new mongoose.Schema({
+const eventSchema = new mongoose.Schema({
     date: Date,
     title: String,
     place: String,
     place_link: String,
     place_address: String,
+    place_address_lat: Number,
+    place_address_lng: Number,
     place_location: String,
     price: Number,
     detail: String,

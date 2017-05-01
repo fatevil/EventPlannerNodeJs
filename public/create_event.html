@@ -145,11 +145,34 @@
                   <span id="place-name"  class="title"></span><br>
                   <span id="place-address"></span>
                 </div>
+                <div class="container" style="margin-top:70px;">
+	<div class="row">
+                  <label class="control-label col-sm-12" for="registration-date">Date:</label>
+            <div class="form-group registration-date col-sm-1">
+            	<div class="input-group registration-date-time">
+            		<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+            		<input class="form-control" name="registration_date" id="registration-date" type="date">
+            		<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></span>
+            		<input class="form-control" name="registration_time" id="registration-time" type="time">
+            		<span class="input-group-btn">
+            	    	<button class="btn btn-default" type="button" onclick="addNow()"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Now</button>
+                    </span>
+            	</div>
+    </div>
+	
+  </div>
+</div>
+                
+
+
                     <form  class="form-horizontal">
                             <button id="createEventSubmit" type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div> 
-                <label class="col-sm-3 control-label">Events</label>
+                <label class="control-label">Upcoming Events</label>
+                <div id="upcomingDiv" class="form-group">
+                </div>
+                <label class="control-label">Events</label>
                 <div id="eventsDiv" class="form-group">
                 </div>
             </form>
@@ -164,12 +187,15 @@
   <script src="js/common.js"></script>
   <script src="js/events.js"></script>
   <script src="js/profiles.js"></script>
+  <script src="http://momentjs.com/downloads/moment-with-locales.js"></script>
+<script src="http://momentjs.com/downloads/moment-timezone-with-data.js"></script>
+
   <script>
 
 
-  let address_lat;
-  let address_lng;
-  let address_place;
+  let place_address_lat;
+  let place_address_lng;
+  let place_address;
 
 
       // This example requires the Places library. Include the libraries=places
@@ -233,9 +259,10 @@
               (place.address_components[2] && place.address_components[2].short_name || '')
             ].join(' ');
           }
-          //address_lat = place.geometry.location.lat;
-          //address_lng = place.geometry.location.lng;
-          address_place = place.name;
+          place_address_lat = place.geometry.location.lat();
+          place_address_lng = place.geometry.location.lng();
+          place_address = place.name;
+
 
           infowindowContent.children['place-icon'].src = place.icon;
           infowindowContent.children['place-name'].textContent = place.name;
@@ -277,12 +304,31 @@
                 console.log(err);
             });
 
+        fetchUpcmingEvents()
+            .then(function(res) {
+                //console.log(res);
+                res.forEach((event) => {
+                  $('#upcomingDiv').prepend(`${event.title} <a href="/event.html?_id=${event._id}">link</a> <br>`);
+                });
+            })
+            .catch(function(err){
+                console.log(err);
+            });
+
         $('#createEventSubmit').on('click', function (event) {
             event.preventDefault();
+            const date = $('#registration-date').val();
+            const time = $('#registration-time').val();
+
+            const concantated = `${date} ${time}`;
+            const milliseconds = moment(concantated, "YYYY-MM-DD HH:mm").format('x');
 
             const formData = new FormData();
             formData.append('title', $('#inputTitle').val());
-            formData.append('address_place', address_place);
+            formData.append('place_address', place_address);
+            formData.append('place_address_lng', place_address_lng);
+            formData.append('place_address_lat', place_address_lat);
+            formData.append('date', milliseconds);
 
             createEvent(formData)
                 .then(function(res) {
@@ -294,6 +340,17 @@
                 });
                 
         });
+
+
+        /*Date picker*/
+        let set ;
+        function addNow() {
+         let nowDate = moment().tz("Europe/London").format('YYYY-MM-DD');
+        let nowTime = moment().tz("Europe/London").format('HH:mm');
+        document.getElementById('registration-date').value = nowDate;
+        document.getElementById('registration-time').value = nowTime;        
+      }
+      /*end of date picker*/
 
   </script>
       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvkp-hH2o_yI7V6rintnrmqZ_uwOZQEpE&libraries=places&callback=initMap"

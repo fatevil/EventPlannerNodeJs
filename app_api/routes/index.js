@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('express-jwt');
 const auth = jwt({
-    secret: 'MY_SECRET',
+    secret: 'MY_SECRET', // TODO: REMOVE
     userProperty: 'payload'
 });
 
@@ -24,6 +24,9 @@ router.get('/profile/:id/unfollow', auth, ctrlProfile.unfollowProfile);
 
 // events
 router.get('/events', auth, ctrlEvent.allEvents);
+router.get('/events/upcoming', auth, ctrlEvent.upcomingEvents);
+router.get('/events/friends', auth, ctrlEvent.friendsEvents);
+router.get('/events/byLocation', auth, ctrlEvent.eventsByLocation);
 router.get('/events/random', auth, ctrlEvent.createRandomEvent);
 router.post('/events', upload.array(), auth, ctrlEvent.createEvent);
 router.get('/event/:id', auth, ctrlEvent.getEvent);

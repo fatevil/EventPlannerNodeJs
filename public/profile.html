@@ -43,13 +43,16 @@
             </div>
              <label class="col-sm-3 control-label">Place</label>
             <p class="form-control-static" id="placeParagraph"></p>
-            </div><!--
+            </div>
              <label class="col-sm-3 control-label">lat</label>
             <p class="form-control-static" id="latParagraph"></p>
             </div>
              <label class="col-sm-3 control-label">lng</label>
             <p class="form-control-static" id="lngParagraph"></p>
-            </div>-->
+            </div>
+             <label class="col-sm-3 control-label">Radius</label>
+            <p class="form-control-static" id="radiusParagraph"></p>
+            </div>
             <button type="button" id="followProfile" class="btn btn-primary">Follow</button>
             <button type="button" id="unfollowProfile" class="btn btn-primary">Unfollow</button>(only other users)
             <br>
@@ -116,9 +119,11 @@
                     $('#attendingDiv').text(data.attending_events);
                     $('#hostingDiv').text(data.hosting_events);
                     $('#followingDiv').text(data.following);
-                    $('#placeParagraph').text(data.address_place);
-                    //$('#latDiv').text(data.address_lat);
-                    //$('#lngDiv').text(data.address_lng);
+                    $('#placeParagraph').text(data.place_address);
+                    $('#latParagraph').text(data.place_address_lat);
+                    $('#lngParagraph').text(data.place_address_lng);
+                    $('#radiusParagraph').text(data.searching_radius);
+
               }
             // check if there's _id in url and if there is, display given profile instead of the logged one
             const profileId = getUrlParameter('_id');

@@ -9,6 +9,38 @@ const fetchAllEvents = function() {
     });
 };
 
+const fetchUpcmingEvents = function() {
+    return fetch('/api/events/upcoming', {
+        method: 'GET',
+        headers: {
+            Authorization: 'Bearer ' + getToken()
+        }
+    }).then(function(data) {
+        return data.json();
+    });
+};
+const fetchFriendsEvents = function() {
+    return fetch('/api/events/friends', {
+        method: 'GET',
+        headers: {
+            Authorization: 'Bearer ' + getToken()
+        }
+    }).then(function(data) {
+        return data.json();
+    });
+};
+
+const fetchEventsByLocation = function() {
+    return fetch('/api/events/byLocation', {
+        method: 'GET',
+        headers: {
+            Authorization: 'Bearer ' + getToken()
+        }
+    }).then(function(data) {
+        return data.json();
+    });
+};
+
 const fetchEventById = function(id) {
     return fetch(`/api/event/${id}`, {
         method: 'GET',

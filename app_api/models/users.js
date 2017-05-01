@@ -14,9 +14,10 @@ var userSchema = new mongoose.Schema({
     },
     hash: String,
     salt: String,
-    address_lat: Number,
-    address_lng: Number,
-    address_place: String,
+    place_address_lat: Number,
+    place_address_lng: Number,
+    place_address: String,
+    searching_radius: Number,
     attending_events: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Event'
