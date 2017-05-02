@@ -43,6 +43,10 @@
       .start-hidden {
           display: none;
       }
+      .profile-picture-thumbnail {
+          width: 50px;
+          height: 50px;
+      }
   </style>
 
 </head>
@@ -193,14 +197,14 @@
                     $('#quickDescriptionParagraph').text(event.quick_description);
                     $('#eventImage').attr("src", event.image.replace("images/", "images/cropped/"));
                     event.attending.forEach((id) => {
-                        $('#attendingPeopleDiv').append(`${id} <br>`);
+                        $('#attendingPeopleDiv').append(`<img alt="profile picture" class="profile-picture-thumbnail" src="images/profile/${id}">`);
                     });
 
                     const authorProfile = fetchProfileById(event.created_by)
                         .then(function(res) {
-                            console.log(res);
                             $('#authorParagraph').append(`<a href="/profile.html?_id=${res._id}">${res.name}</a>`);
-                            console.log(res.attending_events);
+
+
                             if ($.inArray(eventId, res.attending_events)) {
                                 $('#attendEvent').show();
                             } else {
@@ -254,6 +258,7 @@
                         $('#successAttendingDiv').show();
                         $('#attendEvent').hide();
                         $('#unattendEvent').show();
+                        console.log(result);
                     })
                     .catch(function(err) {
                         console.log(err);
@@ -269,6 +274,7 @@
                         $('#alertUnattendingDiv').show();
                         $('#attendEvent').show();
                         $('#unattendEvent').hide();
+                        console.log(result);
                     })
                     .catch(function(err) {
                         console.log(err);

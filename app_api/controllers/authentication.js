@@ -1,5 +1,6 @@
 const passport = require('passport');
 const mongoose = require('mongoose');
+const images = require('./../utils/images');
 const User = mongoose.model('User');
 
 const sendJSONresponse = function(res, status, content) {
@@ -15,9 +16,10 @@ module.exports.register = function(req, res) {
         });
         return;
     }
+    console.log("pictures first");
     const originalFile = 'images/' + req.file.filename;
-    const imageFile = images.saveImage1500x350(req.file.filename, req.file.path);
 
+    console.log("rest");
     // create user and save it
     let user = new User();
     user.name = req.body.name;
@@ -26,7 +28,7 @@ module.exports.register = function(req, res) {
     user.place_address_lng = req.body.place_address_lng;
     user.searching_radius = req.body.searching_radius;
     user.place_address = req.body.place_address;
-    user.image = req.body.image;
+    user.image = originalFile;
     user.attending_events = [];
     user.hosting_events = [];
     user.following = [];
@@ -43,6 +45,8 @@ module.exports.register = function(req, res) {
             "token": token
         });
     });
+    const imageFile = images.saveImageProfile(req.file.filename, req.file.path, user._id);
+
 
     console.log(user);
 

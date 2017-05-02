@@ -17,13 +17,14 @@ exports.saveImage1500x350 = (filename, path) => {
     return imageFile;
 };
 
-exports.saveThumbnail = (filename, path) => {
-    const thumbnailFile = `images/thumbnail/${filename}`;
+exports.saveImageProfile = (filename, path, id) => {
+    const thumbnailFile = `images/profile/${id}`;
+    console.log("creating profile picture");
     sharp(path)
-        .resize(320, 300)
+        .resize(50, 50)
         .toFile('public/' + thumbnailFile)
         .then(() => {
-            //console.log('saved image in 320x300 resolution');
+            console.log('saved image in profile pricture resolution');
         }).catch((err) => {
             console.log(err);
         });
