@@ -15,6 +15,8 @@ module.exports.register = function(req, res) {
         });
         return;
     }
+    const originalFile = 'images/' + req.file.filename;
+    const imageFile = images.saveImage1500x350(req.file.filename, req.file.path);
 
     // create user and save it
     let user = new User();
@@ -24,6 +26,7 @@ module.exports.register = function(req, res) {
     user.place_address_lng = req.body.place_address_lng;
     user.searching_radius = req.body.searching_radius;
     user.place_address = req.body.place_address;
+    user.image = req.body.image;
     user.attending_events = [];
     user.hosting_events = [];
     user.following = [];

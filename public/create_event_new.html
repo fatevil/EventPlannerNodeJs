@@ -29,13 +29,20 @@
       <div class="row">
         <h1 class="form-signin-heading">Create Event</h1>
         <hr>
-        <div class="container">
           <div class="form-group">
             <label for="inputTitle">Title</label>
             <input id="inputTitle" type="text" class="form-control" name="title" placeholder="Enter title">
           </div>
           <div hidden class="alert alert-danger" role="alert" id="alertTitle">
             <strong>Warning! </strong>Title required!
+          </div>
+          <div class="form-group">
+            <label for="inputPrice">Price</label>
+            <input id="inputPrice" type="text" class="form-control" name="price" placeholder="Enter price">
+          </div>
+          <div class="form-group">
+            <label for="inputCategory">Category</label>
+            <input id="inputCategory" type="text" class="form-control" name="category" placeholder="Enter category">
           </div>
           <div class="row">
           <label class="control-label col-sm-12" for="registration-date">Date:</label>
@@ -90,7 +97,7 @@
         </div>
           <div class="form-group">
             <label for="inputQuickDescription">Quick description</label>
-            <input  id="inputQuickDescription" type="text" class="form-control" name="quickDescription" placeholder="Enter title">
+            <input  id="inputQuickDescription" type="text" class="form-control" name="quickDescription" placeholder="Enter quick description">
           </div>
           <div class="form-group">
             <label for="comment">Description:</label>
@@ -114,7 +121,6 @@
       <label class="control-label">Events</label>
       <div id="eventsDiv" class="form-group">
       </div>
-    </div>
   </div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>

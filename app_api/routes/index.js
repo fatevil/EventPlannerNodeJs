@@ -36,7 +36,7 @@ router.get('/event/:id/unattend', auth, ctrlEvent.unattendEvent);
 
 
 // authentication
-router.post('/register', upload.array(), ctrlAuth.register);
+router.post('/register', upload.single('image'), ctrlAuth.register);
 router.post('/login', upload.array(), ctrlAuth.login);
 
 module.exports = router;

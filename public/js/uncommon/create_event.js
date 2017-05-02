@@ -10,7 +10,14 @@ let place_address;
 function initMap() {
     var map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: -33.8688, lng: 151.2195 },
-        zoom: 13
+        zoom: 13,
+        scrollwheel: false,
+    });
+    google.maps.event.addListener(map, 'mouseout', function() {
+        this.setOptions({ scrollwheel: false });
+    });
+    map.addListener('click', function() {
+        map.set('scrollwheel', true);
     });
     var card = document.getElementById('pac-card');
     var input = document.getElementById('pac-input');
@@ -133,10 +140,6 @@ $('#createEventSubmit').on('click', function(event) {
     const concantated = `${date} ${time}`;
     const milliseconds = moment(concantated, "YYYY-MM-DD HH:mm").format('x');
 
-    console.log(place_address_lat);
-    console.log(place_address_lng);
-    console.log(place_address);
-
     let notValid = false;
     if (place_address == undefined) {
         showAndHide($('#alertLocation'));
@@ -146,7 +149,7 @@ $('#createEventSubmit').on('click', function(event) {
         showAndHide($('#alertTitle'));
         notValid = true;
     }
-    var fileInput = document.getElementById('imageInput');
+    const fileInput = document.getElementById('imageInput');
     if (fileInput.files.length == 0) {
         showAndHide($('#alertImage'));
         notValid = true;
@@ -162,6 +165,8 @@ $('#createEventSubmit').on('click', function(event) {
     formData.append('place_address', place_address);
     formData.append('place_address_lng', place_address_lng);
     formData.append('place_address_lat', place_address_lat);
+    formData.append('category', $('#inputCategory').val());
+    formData.append('price', $('#inputPrice').val());
     formData.append('image', fileInput.files[0]);
     formData.append('date', milliseconds);
 

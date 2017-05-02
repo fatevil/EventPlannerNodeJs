@@ -153,9 +153,16 @@
                 <label for="password">Password</label>
                 <input type="password" class="form-control" id="password" placeholder="Password" name="password">
                 </div>
-            <form id="registerForm">
-                <button type="submit" class="btn btn-default">Register!</button>
-            </form>
+                <div class="form-group">
+                  <label for="imageInput">Profile picture</label>
+                  <input id="imageInput" type="file" class="form-control-file" name="image">
+                </div>
+                <div hidden class="alert alert-danger" role="alert" id="alertImage">
+                  <strong>Warning! </strong>Profile picture required!
+                </div>
+                <form id="registerForm">
+                    <button type="submit" class="btn btn-default">Register!</button>
+                </form>
             </div>
         </div>
     </div>
@@ -282,6 +289,12 @@
     $('#registerForm').submit(function(event){
         event.preventDefault();
         
+        const fileInput = document.getElementById('imageInput');
+        if (fileInput.files.length == 0) {
+            showAndHide($('#alertImage'));
+            notValid = true;
+        }
+
         const formData = new FormData();
         formData.append('name', $('#name').val());
         formData.append('email', $('#email').val());
@@ -290,7 +303,8 @@
         formData.append('place_address_lng', place_address_lng);
         formData.append('place_address_lat', place_address_lat);
         formData.append('searching_radius', circle.getRadius());
-        
+        formData.append('image', fileInput.files[0]);
+
         register(formData)
             .then(function(){
                 window.location.href = `/login.html`;

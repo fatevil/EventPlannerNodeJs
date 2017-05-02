@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
 const coordinates = require('../utils/coordinates');
+const images = require('../utils/images');
 const Event = mongoose.model('Event');
 const User = mongoose.model('User');
 // Load the core build.
@@ -66,8 +67,6 @@ module.exports.friendsEvents = function(req, res) {
                             return counter;
                         }, {});
                         const jsonek = JSON.stringify(counted);
-                        console.log(counted);
-                        console.log(jsonek);
                         res.status(200).json(jsonek);
                     });
             });
@@ -109,6 +108,7 @@ module.exports.createEvent = function(req, res) {
         });
     } else {
         const originalFile = 'images/' + req.file.filename;
+        const imageFile = images.saveImage1500x350(req.file.filename, req.file.path);
 
         const event = new Event();
         event.title = req.body.title;
@@ -119,6 +119,10 @@ module.exports.createEvent = function(req, res) {
         event.attending = [req.payload._id];
         event.date = req.body.date;
         event.image = originalFile;
+        event.description = req.body.description;
+        event.price = req.body.price;
+        event.category = req.body.category;
+        event.quick_description = req.body.quickDescription;
         event.save();
 
         User
@@ -134,6 +138,7 @@ module.exports.createEvent = function(req, res) {
                         res.status(200).json(event);
                     })
             });
+        console.log(req.body);
         console.log(event);
 
     }
