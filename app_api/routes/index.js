@@ -28,7 +28,7 @@ router.get('/events/upcoming', auth, ctrlEvent.upcomingEvents);
 router.get('/events/friends', auth, ctrlEvent.friendsEvents);
 router.get('/events/byLocation', auth, ctrlEvent.eventsByLocation);
 router.get('/events/random', auth, ctrlEvent.createRandomEvent);
-router.post('/events', upload.array(), auth, ctrlEvent.createEvent);
+router.post('/events', upload.single('image'), auth, ctrlEvent.createEvent);
 router.get('/event/:id', auth, ctrlEvent.getEvent);
 router.get('/event/:id/attend', auth, ctrlEvent.attendEvent);
 router.get('/event/:id/unattend', auth, ctrlEvent.unattendEvent);

@@ -97,6 +97,11 @@ function initMap() {
 }
 
 
+const showAndHide = function(element) {
+    element.hide();
+    element.show();
+}
+
 
 fetchAllEvents()
     .then(function(res) {
@@ -128,11 +133,36 @@ $('#createEventSubmit').on('click', function(event) {
     const concantated = `${date} ${time}`;
     const milliseconds = moment(concantated, "YYYY-MM-DD HH:mm").format('x');
 
+    console.log(place_address_lat);
+    console.log(place_address_lng);
+    console.log(place_address);
+
+    let notValid = false;
+    if (place_address == undefined) {
+        showAndHide($('#alertLocation'));
+        notValid = true;
+    }
+    if ($('#inputTitle').val() == '') {
+        showAndHide($('#alertTitle'));
+        notValid = true;
+    }
+    var fileInput = document.getElementById('imageInput');
+    if (fileInput.files.length == 0) {
+        showAndHide($('#alertImage'));
+        notValid = true;
+    }
+    if (notValid == true) {
+        return;
+    }
+
     const formData = new FormData();
     formData.append('title', $('#inputTitle').val());
+    formData.append('quickDescription', $('#inputQuickDescription').val());
+    formData.append('description', $('#inputDescription').val());
     formData.append('place_address', place_address);
     formData.append('place_address_lng', place_address_lng);
     formData.append('place_address_lat', place_address_lat);
+    formData.append('image', fileInput.files[0]);
     formData.append('date', milliseconds);
 
     createEvent(formData)

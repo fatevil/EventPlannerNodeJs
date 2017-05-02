@@ -34,6 +34,9 @@
             <label for="inputTitle">Title</label>
             <input id="inputTitle" type="text" class="form-control" name="title" placeholder="Enter title">
           </div>
+          <div hidden class="alert alert-danger" role="alert" id="alertTitle">
+            <strong>Warning! </strong>Title required!
+          </div>
           <div class="row">
           <label class="control-label col-sm-12" for="registration-date">Date:</label>
           <div class="form-group registration-date col-sm-1">
@@ -81,15 +84,24 @@
           <span id="place-name"  class="title"></span><br>
           <span id="place-address"></span>
         </div>
-
         <br>
+        <div hidden class="alert alert-danger" role="alert" id="alertLocation">
+          <strong>Warning! </strong>Location required!
+        </div>
           <div class="form-group">
-            <label for="inputTitle">Quick description</label>
-            <input id="inputQuickDescription" type="text" class="form-control" name="title" placeholder="Enter title">
+            <label for="inputQuickDescription">Quick description</label>
+            <input  id="inputQuickDescription" type="text" class="form-control" name="quickDescription" placeholder="Enter title">
           </div>
           <div class="form-group">
             <label for="comment">Description:</label>
             <textarea class="form-control" rows="5" id="inputDescription"></textarea>
+          </div>
+          <div class="form-group">
+              <label for="imageInput">Image</label>
+              <input id="imageInput" type="file" class="form-control-file" name="image">
+          </div>
+          <div hidden class="alert alert-danger" role="alert" id="alertImage">
+            <strong>Warning! </strong>Image required!
           </div>
         <form  class="form-horizontal">
                 <button id="createEventSubmit" type="submit" class="btn btn-primary">Submit</button>
