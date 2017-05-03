@@ -14,6 +14,8 @@ const eventSchema = new mongoose.Schema({
     price: String,
     category: String,
     image: String,
+    sliderImage: String,
+    headerImage: String,
     created_by: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

@@ -4,9 +4,23 @@ const sharp = require('sharp');
 
 exports.saveImage1500x350 = (filename, path) => {
     const imageFile = `images/cropped/${filename}`;
-    console.log('creating 768 720!');
+    //console.log('creating 768 720!');
     sharp(path)
         .resize(1500, 350)
+        .crop(sharp.gravity.center)
+        .toFile('public/' + imageFile)
+        .then(() => {
+            //console.log('saved image in 768x720 resolution');
+        }).catch((err) => {
+            console.log(err);
+        });
+    return imageFile;
+};
+
+exports.saveImage486x300 = (filename, path) => {
+    const imageFile = `images/slide/${filename}`;
+    sharp(path)
+        .resize(486, 300)
         .crop(sharp.gravity.center)
         .toFile('public/' + imageFile)
         .then(() => {

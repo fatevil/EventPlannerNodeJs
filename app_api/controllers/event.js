@@ -108,7 +108,8 @@ module.exports.createEvent = function(req, res) {
         });
     } else {
         const originalFile = 'images/' + req.file.filename;
-        const imageFile = images.saveImage1500x350(req.file.filename, req.file.path);
+        const headerFile = images.saveImage1500x350(req.file.filename, req.file.path);
+        const sliderImage = images.saveImage486x300(req.file.filename, req.file.path);
 
         const event = new Event();
         event.title = req.body.title;
@@ -119,6 +120,8 @@ module.exports.createEvent = function(req, res) {
         event.attending = [req.payload._id];
         event.date = req.body.date;
         event.image = originalFile;
+        event.sliderImage = headerFile;
+        event.headerImage = sliderImage;
         event.description = req.body.description;
         event.price = req.body.price;
         event.category = req.body.category;
@@ -245,12 +248,13 @@ module.exports.eventsByLocation = function(req, res) {
             "message": "UnauthorizedError: private profile"
         });
     } else {
+        const now = moment().format('x');
 
         User
             .findById(req.payload._id)
             .exec(function(err, user) {
                 Event
-                    .find()
+                    .find({ date: { $gt: now } })
                     .exec(function(err, events) {
                         const filteredEvents = events.filter((event) => {
                             const distance = coordinates.getDistance(event.place_address_lat,
