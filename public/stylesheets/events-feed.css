@@ -1,0 +1,84 @@
+/* custom styles*/
+
+#eventImage {
+    height: 350px;
+    width: 100%;
+}
+
+.imageDiv {
+    position: relative;
+}
+
+.post-content {
+    margin-top: 120px;
+    background: none repeat scroll 0 0 #FFFFFF;
+    opacity: 0.9;
+    top: 0;
+    left: 0;
+    position: absolute;
+}
+
+.no-bottom-margin {
+    margin-bottom: 0px;
+}
+
+.stretch-text {
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.left-right-padding {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.start-hidden {
+    display: none;
+}
+
+.profile-picture-thumbnail {
+    width: 50px;
+    height: 50px;
+}
+
+
+/* end of custom styles*/
+
+
+/* slider image text */
+
+.imageDiv {
+    position: relative;
+}
+
+.post-content {
+    margin-top: 180px;
+    background: none repeat scroll 0 0 #fff;
+    opacity: 0.9;
+    top: 0;
+    left: 0;
+    position: absolute;
+}
+
+
+/* end of custom slider image text*/
+
+
+/* slider */
+
+.carousel-control {
+    padding-top: 10%;
+    width: 5%;
+}
+
+.img-responsive {
+    height: 300px;
+}
+
+.spaceLine {
+    margin: 300px;
+    width: 100%;
+}
+
+
+/* end of slider*/
