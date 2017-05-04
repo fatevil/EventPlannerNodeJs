@@ -146,38 +146,6 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js" type="text/javascript"></script>
   <script>
 
-        
-        fetchAllEvents()
-            .then(function(res) {
-                //console.log(res);
-                res.forEach((event) => {
-                  $('#eventsDiv').prepend(`${event.title} <a href="/event_new.html?_id=${event._id}">link</a> <br>`);
-                });
-            })
-            .catch(function(err){
-                console.log(err);
-            });
-        fetchFriendsEvents()
-            .then(function(res) {
-                const events = eval("(" + res + ")");
-                Object.keys(events).map((e) => {
-                    $('#friendsEventsDiv').prepend(`${events[e]} ${e} <a href="/event_new.html?_id=${events[e]}">link</a> <br>`);
-                });
-
-            })
-            .catch(function(err){
-                console.log(err);
-            });
-        fetchEventsByLocation()
-            .then(function(res) {
-                //console.log(res);
-                res.forEach((event) => {
-                  $('#eventsByLocationDiv').prepend(`${event.title} <a href="/event_new.html?_id=${event._id}">link</a> <br>`);
-                });
-            })
-            .catch(function(err){
-                console.log(err);
-            });
         let authorProfile;
         const eventId = getUrlParameter('_id');
         if (eventId) {
@@ -280,10 +248,6 @@
                         console.log(err);
                     });
             });
-
-            
-            
-
         }
   </script>
 </body>

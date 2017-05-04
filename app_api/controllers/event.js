@@ -32,7 +32,11 @@ module.exports.upcomingEvents = function(req, res) {
     } else {
         const now = moment().format('x');
         Event
-            .find({ date: { $gt: now } })
+            .find({
+                date: {
+                    $gt: now
+                }
+            })
             .exec(function(err, data) {
                 res.status(200).json(data);
             });
@@ -52,22 +56,34 @@ module.exports.friendsEvents = function(req, res) {
             .findById(userId)
             .exec(function(err, user) {
                 const followedPeople = user.following;
-                User.find({ _id: { $in: followedPeople } })
+                User.find({
+                        _id: {
+                            $in: followedPeople
+                        }
+                    })
                     .exec(function(err, users) {
                         const counted = users.reduce((counter, user) => {
                             if ('attending_events' in user) {
                                 user.attending_events.forEach((event) => {
                                     if (!(event in counter)) {
-                                        counter[event] = '1';
-                                    } else {
-                                        counter[event]++;
+                                        counter.push(event);
                                     }
                                 });
                             }
                             return counter;
-                        }, {});
-                        const jsonek = JSON.stringify(counted);
-                        res.status(200).json(jsonek);
+                        }, []);
+                        console.log(counted);
+
+                        Event.
+                        find({
+                                _id: {
+                                    $in: counted
+                                }
+                            })
+                            .exec(function(err, events) {
+                                console.log(events);
+                                res.status(200).json(events);
+                            });
                     });
             });
 
@@ -89,10 +105,18 @@ module.exports.createRandomEvent = function(req, res) {
         User
             .findById(req.payload._id)
             .exec(function(err, user) {
-                User.update({ _id: req.payload._id }, { $addToSet: { hosting_events: event._id } }, function(err, result) {
+                User.update({
+                    _id: req.payload._id
+                }, {
+                    $addToSet: {
+                        hosting_events: event._id
+                    }
+                }, function(err, result) {
                     if (err) {
                         console.log(err);
-                        res.status(500).json({ "message": "Internall error" });
+                        res.status(500).json({
+                            "message": "Internall error"
+                        });
                         return;
                     }
                     res.status(200).json("{'message': 'ok' }");
@@ -131,11 +155,20 @@ module.exports.createEvent = function(req, res) {
         User
             .findById(req.payload._id)
             .exec(function(err, user) {
-                User.update({ _id: req.payload._id }, { $addToSet: { hosting_events: event._id, attending_events: event._id } },
+                User.update({
+                        _id: req.payload._id
+                    }, {
+                        $addToSet: {
+                            hosting_events: event._id,
+                            attending_events: event._id
+                        }
+                    },
                     function(err, result) {
                         if (err) {
                             console.log(err);
-                            res.status(500).json({ "message": "Internall error" });
+                            res.status(500).json({
+                                "message": "Internall error"
+                            });
                             return;
                         }
                         res.status(200).json(event);
@@ -160,7 +193,9 @@ module.exports.getEvent = function(req, res) {
             .exec(function(err, event) {
                 if (err) {
                     console.log(err);
-                    res.status(500).json({ "message": "Internall error" });
+                    res.status(500).json({
+                        "message": "Internall error"
+                    });
                     return;
                 }
                 res.status(200).json(event);
@@ -181,10 +216,18 @@ module.exports.attendEvent = function(req, res) {
         Event
             .findById(eventId)
             .exec(function(err, event) {
-                Event.update({ _id: eventId }, { $addToSet: { attending: userId } }, function(err, result) {
+                Event.update({
+                    _id: eventId
+                }, {
+                    $addToSet: {
+                        attending: userId
+                    }
+                }, function(err, result) {
                     if (err) {
                         console.log(err);
-                        res.status(500).json({ "message": "Internall error" });
+                        res.status(500).json({
+                            "message": "Internall error"
+                        });
                         return;
                     }
                 })
@@ -193,10 +236,18 @@ module.exports.attendEvent = function(req, res) {
         User
             .findById(userId)
             .exec(function(err, user) {
-                User.update({ _id: userId }, { $addToSet: { attending_events: eventId } }, function(err, result) {
+                User.update({
+                    _id: userId
+                }, {
+                    $addToSet: {
+                        attending_events: eventId
+                    }
+                }, function(err, result) {
                     if (err) {
                         console.log(err);
-                        res.status(500).json({ "message": "Internall error" });
+                        res.status(500).json({
+                            "message": "Internall error"
+                        });
                         return;
                     }
                     res.status(200).json(result);
@@ -218,10 +269,18 @@ module.exports.unattendEvent = function(req, res) {
         Event
             .findById(eventId)
             .exec(function(err, event) {
-                Event.update({ _id: eventId }, { $pull: { attending: userId } }, function(err, result) {
+                Event.update({
+                    _id: eventId
+                }, {
+                    $pull: {
+                        attending: userId
+                    }
+                }, function(err, result) {
                     if (err) {
                         console.log(err);
-                        res.status(500).json({ "message": "Internall error" });
+                        res.status(500).json({
+                            "message": "Internall error"
+                        });
                         return;
                     }
                 })
@@ -230,10 +289,18 @@ module.exports.unattendEvent = function(req, res) {
         User
             .findById(userId)
             .exec(function(err, user) {
-                User.update({ _id: userId }, { $pull: { attending_events: eventId } }, function(err, result) {
+                User.update({
+                    _id: userId
+                }, {
+                    $pull: {
+                        attending_events: eventId
+                    }
+                }, function(err, result) {
                     if (err) {
                         console.log(err);
-                        res.status(500).json({ "message": "Internall error" });
+                        res.status(500).json({
+                            "message": "Internall error"
+                        });
                         return;
                     }
                     res.status(200).json(result);
@@ -254,7 +321,11 @@ module.exports.eventsByLocation = function(req, res) {
             .findById(req.payload._id)
             .exec(function(err, user) {
                 Event
-                    .find({ date: { $gt: now } })
+                    .find({
+                        date: {
+                            $gt: now
+                        }
+                    })
                     .exec(function(err, events) {
                         const filteredEvents = events.filter((event) => {
                             const distance = coordinates.getDistance(event.place_address_lat,
