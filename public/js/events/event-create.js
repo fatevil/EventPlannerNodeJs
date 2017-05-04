@@ -1,14 +1,11 @@
+/* Google map features*/
+
 let place_address_lat;
 let place_address_lng;
 let place_address;
 
-
-// This example requires the Places library. Include the libraries=places
-// parameter when you first load the API. For example:
-// <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-
 function initMap() {
-    var map = new google.maps.Map(document.getElementById('map'), {
+    const map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: -33.8688, lng: 151.2195 },
         zoom: 13,
         scrollwheel: false,
@@ -19,24 +16,24 @@ function initMap() {
     map.addListener('click', function() {
         map.set('scrollwheel', true);
     });
-    var card = document.getElementById('pac-card');
-    var input = document.getElementById('pac-input');
-    var types = document.getElementById('type-selector');
-    var strictBounds = document.getElementById('strict-bounds-selector');
+    const card = document.getElementById('pac-card');
+    const input = document.getElementById('pac-input');
+    const types = document.getElementById('type-selector');
+    const strictBounds = document.getElementById('strict-bounds-selector');
 
     map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
 
-    var autocomplete = new google.maps.places.Autocomplete(input);
+    const autocomplete = new google.maps.places.Autocomplete(input);
 
     // Bind the map's bounds (viewport) property to the autocomplete object,
     // so that the autocomplete requests use the current map bounds for the
     // bounds option in the request.
     autocomplete.bindTo('bounds', map);
 
-    var infowindow = new google.maps.InfoWindow();
-    var infowindowContent = document.getElementById('infowindow-content');
+    const infowindow = new google.maps.InfoWindow();
+    const infowindowContent = document.getElementById('infowindow-content');
     infowindow.setContent(infowindowContent);
-    var marker = new google.maps.Marker({
+    const marker = new google.maps.Marker({
         map: map,
         anchorPoint: new google.maps.Point(0, -29)
     });
@@ -44,7 +41,7 @@ function initMap() {
     autocomplete.addListener('place_changed', function() {
         infowindow.close();
         marker.setVisible(false);
-        var place = autocomplete.getPlace();
+        const place = autocomplete.getPlace();
         if (!place.geometry) {
             // User entered the name of a Place that was not suggested and
             // pressed the Enter key, or the Place Details request failed.
@@ -63,7 +60,7 @@ function initMap() {
         marker.setPosition(place.geometry.location);
         marker.setVisible(true);
 
-        var address = '';
+        let address = '';
         if (place.address_components) {
             address = [
                 (place.address_components[0] && place.address_components[0].short_name || ''),
@@ -85,7 +82,7 @@ function initMap() {
     // Sets a listener on a radio button to change the filter type on Places
     // Autocomplete.
     function setupClickListener(id, types) {
-        var radioButton = document.getElementById(id);
+        const radioButton = document.getElementById(id);
         radioButton.addEventListener('click', function() {
             autocomplete.setTypes(types);
         });
@@ -102,36 +99,18 @@ function initMap() {
             autocomplete.setOptions({ strictBounds: this.checked });
         });
 }
+/* end of Google map features*/
 
+
+/* util methods for showing and hiding divs*/
 
 const showAndHide = function(element) {
-    element.hide();
-    element.show();
-}
+        element.hide();
+        element.show();
+    }
+    /* end of util methods*/
 
-
-fetchAllEvents()
-    .then(function(res) {
-        //console.log(res);
-        res.forEach((event) => {
-            $('#eventsDiv').prepend(`${event.title} <a href="/event.html?_id=${event._id}">link</a> <br>`);
-        });
-    })
-    .catch(function(err) {
-        console.log(err);
-    });
-
-fetchUpcmingEvents()
-    .then(function(res) {
-        //console.log(res);
-        res.forEach((event) => {
-            $('#upcomingDiv').prepend(`${event.title} <a href="/event.html?_id=${event._id}">link</a> <br>`);
-        });
-    })
-    .catch(function(err) {
-        console.log(err);
-    });
-
+/* validation and sumbitting form*/
 $('#createEventSubmit').on('click', function(event) {
     event.preventDefault();
     const date = $('#registration-date').val();
@@ -173,14 +152,14 @@ $('#createEventSubmit').on('click', function(event) {
     createEvent(formData)
         .then(function(res) {
             //console.log(res);
-            $('#eventsDiv').prepend(`${res.title} <a href="/event.html?_id=${res._id}">link</a> <br>`);
+            window.location.href = `/event_new.html?_id=${res._id}`;
         })
         .catch(function(err) {
             console.log(err);
         });
 
 });
-
+/* end of validation and sumbitting form*/
 
 /*Date picker*/
 let set;

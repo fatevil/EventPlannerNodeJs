@@ -1,351 +1,105 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Event planner</title>
-  <base href="/">
-  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-slider.min.css">
-<style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      #map {
-        height: 500px;
-      }
-      /* Optional: Makes the sample page fill the window. */
-      #description {
-        font-family: Roboto;
-        font-size: 15px;
-        font-weight: 300;
-      }
-
-      #infowindow-content .title {
-        font-weight: bold;
-      }
-
-      #infowindow-content {
-        display: none;
-      }
-
-      #map #infowindow-content {
-        display: inline;
-      }
-
-      .pac-card {
-        margin: 10px 10px 0 0;
-        border-radius: 2px 0 0 2px;
-        box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        outline: none;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-        background-color: #fff;
-        font-family: Roboto;
-      }
-
-      #pac-container {
-        padding-bottom: 12px;
-        margin-right: 12px;
-      }
-
-      .pac-controls {
-        display: inline-block;
-        padding: 5px 11px;
-      }
-
-      .pac-controls label {
-        font-family: Roboto;
-        font-size: 13px;
-        font-weight: 300;
-      }
-
-      #pac-input {
-        background-color: #fff;
-        font-family: Roboto;
-        font-size: 15px;
-        font-weight: 300;
-        margin-left: 12px;
-        padding: 0 11px 0 13px;
-        text-overflow: ellipsis;
-        width: 400px;
-      }
-
-      #pac-input:focus {
-        border-color: #4d90fe;
-      }
-
-      #title {
-        color: #fff;
-        background-color: #4d90fe;
-        font-size: 25px;
-        font-weight: 500;
-        padding: 6px 12px;
-      }
-
-    </style>
-</head>
-<body ng-view>
-
-  <div class="navbar navbar-default">
-    <div class="container">
-      <div id="navbar-main">
-        <ul class="nav navbar-nav">
-          <li><a href="/">Home</a></li>
-          <li><a href="/events">Events</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li ><a href="/login.html">Sign in</a></li>
-        </ul>
+   <head>
+      <title>Event planner</title>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-slider.min.css">
+      <link rel="stylesheet" href="/stylesheets/register.css">
+   </head>
+   <body>
+      <div class="navbar navbar-default">
+        <div class="container">
+          <div id="navbar-main">
+            <ul class="nav navbar-nav">
+              <li><a href="/login.html">Login</a></li>
+              <li><a href="/register.html">Register</a></li>
+            </ul>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-
-    <div class="container">
-        <div class="row">
+      <div class="container">
+         <div class="row">
             <div class="col-md-6">
-            <h1>Register</h1>
-            <p class="lead">Already a member? Please <a href="login">log in</a> instead.</p>
-                <div class="form-group">
-                <label for="name">Full name</label>
-                <input type="text" class="form-control" id="name" placeholder="Enter your name" name="name">
-                </div>
-                <div class="form-group">
-                <label for="email">Email address</label>
-                <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
-                </div>
-<input id="ex6" type="text" data-slider-min="0" data-slider-max="70" data-slider-step="0.5" data-slider-value="3"/>
-<span id="ex6CurrentSliderValLabel">Current Slider Value: <span id="ex6SliderVal">3</span></span>                <br>
-                <br><br>
-                <div class="pac-card" id="pac-card">
+               <h1>Register</h1>
+               <p class="lead">Already a member? Please <a href="/login.html">log in</a> instead.</p>
+               <div class="form-group">
+                  <label for="name">Full name</label>
+                  <input type="text" class="form-control" id="inputUsername" placeholder="Enter your name" name="name">
+               </div>
+               <div hidden class="alert alert-danger" role="alert" id="alertUsername">
+                  <strong>Warning! </strong>Username required!
+               </div>
+               <div class="form-group">
+                  <label for="email">Email address</label>
+                  <input type="email" class="form-control" id="inputEmail" placeholder="Enter email" name="email">
+               </div>
+               <div hidden class="alert alert-danger" role="alert" id="alertEmail">
+                  <strong>Warning! </strong>Email required!
+               </div>
+               <input data-slider-enabled="false" id="ex6" type="text" data-slider-min="0" data-slider-max="70" data-slider-step="0.5" data-slider-value="3"/>
+               <span id="ex6CurrentSliderValLabel">Current Slider Value: <span id="ex6SliderVal">1500</span> * 500m</span>                <br>
+               <br><br>
+               <div class="pac-card" id="pac-card">
                   <div>
-                    <div id="title">
-                      Autocomplete search
-                    </div>
-                    <div id="type-selector" class="pac-controls">
-                      <input type="radio" name="type" id="changetype-all" checked="checked">
-                      <label for="changetype-all">All</label>
-
-                      <input type="radio" name="type" id="changetype-establishment">
-                      <label for="changetype-establishment">Establishments</label>
-
-                      <input type="radio" name="type" id="changetype-address">
-                      <label for="changetype-address">Addresses</label>
-
-                      <input type="radio" name="type" id="changetype-geocode">
-                      <label for="changetype-geocode">Geocodes</label>
-                    </div>
-                    <div id="strict-bounds-selector" class="pac-controls">
-                      <input type="checkbox" id="use-strict-bounds" value="">
-                      <label for="use-strict-bounds">Strict Bounds</label>
-                    </div>
+                     <div id="title">
+                        Autocomplete search
+                     </div>
+                     <div id="type-selector" class="pac-controls">
+                        <input type="radio" name="type" id="changetype-all" checked="checked">
+                        <label for="changetype-all">All</label>
+                        <input type="radio" name="type" id="changetype-establishment">
+                        <label for="changetype-establishment">Establishments</label>
+                        <input type="radio" name="type" id="changetype-address">
+                        <label for="changetype-address">Addresses</label>
+                        <input type="radio" name="type" id="changetype-geocode">
+                        <label for="changetype-geocode">Geocodes</label>
+                     </div>
+                     <div id="strict-bounds-selector" class="pac-controls">
+                        <input type="checkbox" id="use-strict-bounds" value="">
+                        <label for="use-strict-bounds">Strict Bounds</label>
+                     </div>
                   </div>
                   <div id="pac-container">
-                    <input id="pac-input" type="text"
+                     <input id="pac-input" type="text"
                         placeholder="Enter a location">
                   </div>
-                </div>
-                <div id="map"></div>
-                <div id="infowindow-content">
+               </div>
+               <div id="map"></div>
+               <br>
+               <div hidden class="alert alert-danger" role="alert" id="alertLocation">
+                  <strong>Warning! </strong>Location required!
+               </div>
+               <div id="infowindow-content">
                   <img src="" width="16" height="16" id="place-icon">
                   <span id="place-name"  class="title"></span><br>
                   <span id="place-address"></span>
-                </div>
-                <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" placeholder="Password" name="password">
-                </div>
-                <div class="form-group">
+               </div>
+               <div class="form-group">
+                  <label for="password">Password</label>
+                  <input type="password" class="form-control" id="inputPassword" placeholder="Password" name="password">
+               </div>
+               <div hidden class="alert alert-danger" role="alert" id="alertPassword">
+                  <strong>Warning! </strong>Password required!
+               </div>
+               <div class="form-group">
                   <label for="imageInput">Profile picture</label>
                   <input id="imageInput" type="file" class="form-control-file" name="image">
-                </div>
-                <div hidden class="alert alert-danger" role="alert" id="alertImage">
+               </div>
+               <div hidden class="alert alert-danger" role="alert" id="alertImage">
                   <strong>Warning! </strong>Profile picture required!
-                </div>
-                <form id="registerForm">
-                    <button type="submit" class="btn btn-default">Register!</button>
-                </form>
+               </div>
+               <form id="registerForm">
+                  <button type="submit" class="btn btn-default">Register!</button>
+               </form>
             </div>
-        </div>
-    </div>
-
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script src="js/authentication.js"></script>
-  <script src="lib/bootstrap/js/bootstrap-slider.js"></script>
-  <script defer>
-
-  let place_address_lat;
-  let place_address_lng;
-  let place_address;
-  let circle;
-
-
-      // This example requires the Places library. Include the libraries=places
-      // parameter when you first load the API. For example:
-      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-
-      function initMap() {
-        var map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: -33.8688, lng: 151.2195},
-          zoom: 10
-        });
-        var card = document.getElementById('pac-card');
-        var input = document.getElementById('pac-input');
-        var types = document.getElementById('type-selector');
-        var strictBounds = document.getElementById('strict-bounds-selector');
-
-        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
-
-        var autocomplete = new google.maps.places.Autocomplete(input);
-
-        // Bind the map's bounds (viewport) property to the autocomplete object,
-        // so that the autocomplete requests use the current map bounds for the
-        // bounds option in the request.
-        autocomplete.bindTo('bounds', map);
-
-        var infowindow = new google.maps.InfoWindow();
-        var infowindowContent = document.getElementById('infowindow-content');
-        infowindow.setContent(infowindowContent);
-        var marker = new google.maps.Marker({
-          map: map,
-          anchorPoint: new google.maps.Point(0, -29)
-        });
-
-        autocomplete.addListener('place_changed', function() {
-          infowindow.close();
-          marker.setVisible(false);
-          var place = autocomplete.getPlace();
-          if (!place.geometry) {
-            // User entered the name of a Place that was not suggested and
-            // pressed the Enter key, or the Place Details request failed.
-            window.alert("No details available for input: '" + place.name + "'");
-            return;
-          }
-
-          // If the place has a geometry, then present it on a map.
-          if (place.geometry.viewport) {
-            map.fitBounds(place.geometry.viewport);
-          } else {
-              alert(place.geometry.location);
-            map.setCenter(place.geometry.location);
-            map.setZoom(10);  // Why 17? Because it looks good.
-          }
-          map.setZoom(13);
-          marker.setPosition(place.geometry.location);
-          marker.setVisible(true);
-
-          var address = '';
-          if (place.address_components) {
-            address = [
-              (place.address_components[0] && place.address_components[0].short_name || ''),
-              (place.address_components[1] && place.address_components[1].short_name || ''),
-              (place.address_components[2] && place.address_components[2].short_name || '')
-            ].join(' ');
-          }
-          place_address_lat = place.geometry.location.lat();
-          place_address_lng = place.geometry.location.lng();
-          place_address = place.name;
-
-          infowindowContent.children['place-icon'].src = place.icon;
-          infowindowContent.children['place-name'].textContent = place.name;
-          infowindowContent.children['place-address'].textContent = address;
-          infowindow.open(map, marker);
-
-          if (circle) {
-            circle.setMap(null);
-            circle = null;
-          }
-          // Add circle overlay and bind to marker
-            circle = new google.maps.Circle({
-            map: map,
-            radius: 1500,    // 10 miles in metres
-            fillColor: '#AA0000'
-            });
-            circle.bindTo('center', marker, 'position');
-        });
-
-        // Sets a listener on a radio button to change the filter type on Places
-        // Autocomplete.
-        function setupClickListener(id, types) {
-          var radioButton = document.getElementById(id);
-          radioButton.addEventListener('click', function() {
-            autocomplete.setTypes(types);
-          });
-        }
-
-        setupClickListener('changetype-all', []);
-        setupClickListener('changetype-address', ['address']);
-        setupClickListener('changetype-establishment', ['establishment']);
-        setupClickListener('changetype-geocode', ['geocode']);
-
-        document.getElementById('use-strict-bounds')
-            .addEventListener('click', function() {
-              console.log('Checkbox clicked! New state=' + this.checked);
-              autocomplete.setOptions({strictBounds: this.checked});    
-            });
-      }
-
-
-
-    $('#registerForm').submit(function(event){
-        event.preventDefault();
-        
-        const fileInput = document.getElementById('imageInput');
-        if (fileInput.files.length == 0) {
-            showAndHide($('#alertImage'));
-            notValid = true;
-        }
-
-        const formData = new FormData();
-        formData.append('name', $('#name').val());
-        formData.append('email', $('#email').val());
-        formData.append('password', $('#password').val());
-        formData.append('place_address', place_address);
-        formData.append('place_address_lng', place_address_lng);
-        formData.append('place_address_lat', place_address_lat);
-        formData.append('searching_radius', circle.getRadius());
-        formData.append('image', fileInput.files[0]);
-
-        register(formData)
-            .then(function(){
-                window.location.href = `/login.html`;
-            })
-            .catch(function(err){
-                console.log(err);
-            });
-    });
-
-
-/*  SLIDER  */
-// With JQuery
-$("#ex6").slider();
-$("#ex6").on("slide", function(slideEvt) {
-	$("#ex6SliderVal").text(slideEvt.value);
-  if (circle) {
-    circle.setRadius(slideEvt.value * 500);
-    console.log('chnanged');
-    console.log(circle.getRadius());
-  }
-  
-});
-
-var originalVal;
-
-$('#ex6').slider().on('slideStart', function(ev){
-    originalVal = $('#ex6').data('slider').getValue();
-});
-
-$('#ex6').slider().on('slideStop', function(ev){
-    var newVal = $('#ex6').data('slider').getValue();
-    if(originalVal != newVal) {
-        //alert('Value Changed!');
-    }
-});
-
-/* END OF SLIDER */
-
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvkp-hH2o_yI7V6rintnrmqZ_uwOZQEpE&libraries=places&callback=initMap"
-        async defer></script>
-
-</body>
+         </div>
+      </div>
+      <script src="js/authentication.js"></script>
+      <script src="lib/bootstrap/js/bootstrap-slider.js"></script>
+      <script src="js/authentication/register.js" defer></script>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvkp-hH2o_yI7V6rintnrmqZ_uwOZQEpE&libraries=places&callback=initMap"
+         async defer></script>
+   </body>
 </html>

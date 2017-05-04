@@ -16,25 +16,42 @@ if (eventId) {
             $('#priceParagraph').text(event.price);
             $('#categoryParagraph').text(event.category);
             $('#quickDescriptionParagraph').text(event.quick_description);
-            $('#eventImage').attr("src", event.image.replace("images/", "images/cropped/"));
-            event.attending.forEach((id) => {
-                $('#attendingPeopleDiv').append(`<a href="/profile.html?_id=${id}"><img alt="profile picture" class="profile-picture-thumbnail" src="images/profile/${id}"></a>`);
-            });
+            $('#eventImage').attr("src", event.headerImage);
+
+            /* get images for attending people */
+            fetchPeopleWhoAttend(event._id)
+                .then(function(users) {
+                    users.forEach((user) => {
+                        $('#attendingPeopleDiv').append(`<a href="/profile.html?_id=${user._id}"><img alt="profile picture" class="profile-picture-thumbnail" src="${user.image_small}"></a>`);
+                    });
+                })
+                .catch(function(err) {
+                    console.log(err);
+                });
 
             /* fetch the author's profile  */
             fetchProfileById(event.created_by)
                 .then(function(res) {
                     $('#authorParagraph').append(`<a href="/profile.html?_id=${res._id}">${res.name}</a>`);
-                    if ($.inArray(eventId, res.attending_events)) {
-                        $('#attendEvent').show();
-                    } else {
-                        $('#unattendEvent').show();
-                    }
                 })
                 .catch(function(err) {
                     console.log(err);
                 });
             /* end of author's profile */
+
+            /* fetch current user's profile  */
+            fetchCurrentProfile()
+                .then(function(res) {
+                    if (res.attending_events.includes(eventId)) {
+                        $('#unattendEvent').show();
+                    } else {
+                        $('#attendEvent').show();
+                    }
+                })
+                .catch(function(err) {
+                    console.log(err);
+                });
+            /* end of current users's profile */
 
             /* google map */
             let map;

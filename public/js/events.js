@@ -19,6 +19,26 @@ const fetchUpcmingEvents = function() {
         return data.json();
     });
 };
+const fetchFollowedFriends = function(id) {
+    return fetch(`/api/profile/${id}/following`, {
+        method: 'GET',
+        headers: {
+            Authorization: 'Bearer ' + getToken()
+        }
+    }).then(function(data) {
+        return data.json();
+    });
+};
+const fetchPeopleWhoAttend = function(id) {
+    return fetch(`/api/events/${id}/attending`, {
+        method: 'GET',
+        headers: {
+            Authorization: 'Bearer ' + getToken()
+        }
+    }).then(function(data) {
+        return data.json();
+    });
+};
 const fetchFriendsEvents = function() {
     return fetch('/api/events/friends', {
         method: 'GET',
@@ -29,6 +49,7 @@ const fetchFriendsEvents = function() {
         return data.json();
     });
 };
+
 
 const fetchEventsByLocation = function() {
     return fetch('/api/events/byLocation', {

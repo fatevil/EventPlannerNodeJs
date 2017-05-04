@@ -18,6 +18,9 @@ var userSchema = new mongoose.Schema({
     place_address_lng: Number,
     place_address: String,
     searching_radius: Number,
+    image: String,
+    image_medium: String,
+    image_small: String,
     attending_events: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Event'

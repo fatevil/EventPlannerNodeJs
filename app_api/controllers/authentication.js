@@ -16,10 +16,10 @@ module.exports.register = function(req, res) {
         });
         return;
     }
-    console.log("pictures first");
-    const originalFile = 'images/' + req.file.filename;
+    const profilePictureOriginal = 'images/' + req.file.filename;
+    const smallProfilePicture = images.saveImageProfileSmall(req.file.filename, req.file.path);
+    const mediumProfilePicture = images.saveImageProfileMedium(req.file.filename, req.file.path);
 
-    console.log("rest");
     // create user and save it
     let user = new User();
     user.name = req.body.name;
@@ -28,13 +28,12 @@ module.exports.register = function(req, res) {
     user.place_address_lng = req.body.place_address_lng;
     user.searching_radius = req.body.searching_radius;
     user.place_address = req.body.place_address;
-    user.image = originalFile;
+    user.image = profilePictureOriginal;
+    user.image_medium = mediumProfilePicture;
+    user.image_small = smallProfilePicture;
     user.attending_events = [];
     user.hosting_events = [];
     user.following = [];
-
-    console.log(req.body);
-
     user.setPassword(req.body.password);
 
     user.save(function(err) {
@@ -45,11 +44,7 @@ module.exports.register = function(req, res) {
             "token": token
         });
     });
-    const imageFile = images.saveImageProfile(req.file.filename, req.file.path, user._id);
-
-
     console.log(user);
-
 
 };
 

@@ -2,8 +2,8 @@ const sharp = require('sharp');
 
 //let exports = module.exports = {};
 
-exports.saveImage1500x350 = (filename, path) => {
-    const imageFile = `images/cropped/${filename}`;
+exports.saveImageEventHeader = (filename, path) => {
+    const imageFile = `images/header/${filename}`;
     //console.log('creating 768 720!');
     sharp(path)
         .resize(1500, 350)
@@ -17,8 +17,8 @@ exports.saveImage1500x350 = (filename, path) => {
     return imageFile;
 };
 
-exports.saveImage486x300 = (filename, path) => {
-    const imageFile = `images/slide/${filename}`;
+exports.saveImageEventSlider = (filename, path) => {
+    const imageFile = `images/slider/${filename}`;
     sharp(path)
         .resize(486, 300)
         .crop(sharp.gravity.center)
@@ -31,14 +31,26 @@ exports.saveImage486x300 = (filename, path) => {
     return imageFile;
 };
 
-exports.saveImageProfile = (filename, path, id) => {
-    const thumbnailFile = `images/profile/${id}`;
-    console.log("creating profile picture");
+exports.saveImageProfileMedium = (filename, path) => {
+    const thumbnailFile = `images/medium/${filename}`;
+    sharp(path)
+        .resize(200, 200)
+        .toFile('public/' + thumbnailFile)
+        .then(() => {
+            //console.log('saved image in medium profile pricture resolution');
+        }).catch((err) => {
+            console.log(err);
+        });
+    return thumbnailFile;
+};
+
+exports.saveImageProfileSmall = (filename, path) => {
+    const thumbnailFile = `images/small/${filename}`;
     sharp(path)
         .resize(50, 50)
         .toFile('public/' + thumbnailFile)
         .then(() => {
-            console.log('saved image in profile pricture resolution');
+            //console.log('saved image in small profile pricture resolution');
         }).catch((err) => {
             console.log(err);
         });

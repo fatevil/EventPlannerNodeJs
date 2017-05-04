@@ -53,7 +53,7 @@ const fillCarousel = (category, i, event) => {
         }
     }
     const item = `#carousel-form-${category}-${o}`;
-    $(item).append(templateCarouselImage(event.image.replace("images/", "images/cropped/"), event.title, event.quick_description, event._id));
+    $(item).append(templateCarouselImage(event.sliderImage, event.title, event.quick_description, event._id));
 };
 
 /* fetch events based on who you follow*/

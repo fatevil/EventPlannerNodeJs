@@ -10,6 +10,27 @@ const fetchCurrentProfile = function() {
 };
 
 
+const fetchAttendingEventsById = function(id) {
+    return fetch(`/api/profile/${id}/attending`, {
+        method: 'GET',
+        headers: {
+            Authorization: 'Bearer ' + getToken()
+        }
+    }).then(function(data) {
+        return data.json();
+    });
+};
+const fetchHostingEventsById = function(id) {
+    return fetch(`/api/profile/${id}/hosting`, {
+        method: 'GET',
+        headers: {
+            Authorization: 'Bearer ' + getToken()
+        }
+    }).then(function(data) {
+        return data.json();
+    });
+};
+
 const fetchProfileById = function(id) {
     return fetch(`/api/profile/${id}`, {
         method: 'GET',
