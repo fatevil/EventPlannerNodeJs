@@ -1,0 +1,27 @@
+.otherProfileImage {
+    float: left;
+    margin-right: 10px;
+}
+
+.otherProfile {
+    margin: 10px;
+}
+
+.profilePicture {
+    width: 200px;
+    height: 200px;
+}
+
+.blockHeight {
+    height: 500px;
+}
+
+#map {
+    height: 200px;
+    width: 200px;
+    margin: 0px;
+}
+
+.hidden-button {
+    display: none;
+}

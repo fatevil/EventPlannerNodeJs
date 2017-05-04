@@ -7,10 +7,11 @@
 
      login(formData)
          .then(function(result) {
-             if (result == undefined) {
-                 window.location.href = `/login.html`;
-             } else {
+             console.log(result);
+             if (result.token) {
                  window.location.href = `/profile.html`;
+             } else {
+                 window.location.href = `/login.html`;
              }
          })
          .catch(function(err) {

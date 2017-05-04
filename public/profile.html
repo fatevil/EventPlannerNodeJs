@@ -6,43 +6,20 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
       <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-slider.min.css">
-      <!--<link rel="stylesheet" href="/stylesheets/register.css">-->
-      <style>
-         .otherProfileImage {
-         float:left;
-         margin-right: 10px;
-         } 
-         .otherProfile {
-         margin: 10px;
-         }
-         .profilePicture {
-         width: 200px;
-         height: 200px;
-         }
-         .blockHeight {
-         height: 500px;
-         }
-         #map {
-         height: 200px;
-         width: 200px;
-         margin: 0px;
-         }
-         .hidden-button {
-         display:none;
-         }
-      </style>
+      <link rel="stylesheet" href="/stylesheets/profile.css">
    </head>
    <body>
       <div class="navbar navbar-default">
          <div class="container">
             <div id="navbar-main">
                <ul class="nav navbar-nav">
-                  <li><a href="/">Home</a></li>
-                  <li><a href="/events.html">Events</a></li>
+                  <li><a href="/profile.html">Home</a></li>
+                  <li><a href="/events_feed.html">Events</a></li>
+                  <li><a href="/create_event_new.html">Create Event</a></li>
                </ul>
                <ul class="nav navbar-nav navbar-right">
-                  <li><a href="/login.html">Sign in</a></li>
-                  <li><a href="/profile.html"></a></li>
+                  <li><a href="/profile.html" id="currentUserLink"></a></li>
+                  <li><a href="#" id="logoutLink">Logout</a></li>
                </ul>
             </div>
          </div>
@@ -84,154 +61,12 @@
             </div>
          </div>
       </div>
-      <script src="js/authentication.js"></script>
+      <script src="js/communication/authentication.js"></script>
       <script src="js/utils.js"></script>
       <script src="js/common.js"></script>
-      <script src="js/events.js"></script>
-      <script src="js/profiles.js"></script>
+      <script src="js/communication/events.js"></script>
+      <script src="js/communication/profiles.js"></script>
       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvkp-hH2o_yI7V6rintnrmqZ_uwOZQEpE"></script>
-      <script>
-         const templateOtherProfiles = (profile) => {
-             return `
-             <div class="otherProfile">
-                 <a href="/profile.html?_id=${profile._id}">
-                 <p>${profile.name}</p>
-                 </a>
-             </div>
-                  `;
-         }
-         const templateAttendingEvent = (event)=> {
-             return `
-                <a href="/event_new.html?_id=${event._id}">
-                    <p>${event.title}</p>
-                </a>`;
-         }  
-         
-         
-         
-         const putProfileToDivs = function(data) {
-                 $('#nameParagraph').text(data.name);
-                 $('#emailParagraph').text(data.email);
-                 $('#placeParagraph').text(data.place_address);
-                 $('#latParagraph').text(data.place_address_lat);
-                 $('#lngParagraph').text(data.place_address_lng);
-                 $('#radiusParagraph').text(data.searching_radius);
-                 $('#profilePicture').attr('src', data.image_medium);
-         
-                /* google map */
-                let map;
-                let marker;
-                let mapOptions;
-                let mapCanvas;
-                let mapBig;
-         
-                mapCanvas = document.getElementById('map');
-                mapOptions = {
-                    center: new google.maps.LatLng(data.place_address_lat, data.place_address_lng),
-                    zoom: 8,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP,
-                    scrollwheel: false,
-                    draggable: false
-                };
-                map = new google.maps.Map(mapCanvas, mapOptions);
-                marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(data.place_address_lat, data.place_address_lng),
-                    map: map,
-                });
-                google.maps.event.addListener(map, 'mouseout', function() {
-                    this.setOptions({ scrollwheel: false });
-                });
-                map.addListener('click', function() {
-                    map.set('scrollwheel', true);
-                });
-                /* end of google map */
-         
-                fetchAttendingEventsById(data._id)
-                    .then(function(res) {
-                        res.forEach((profile) => {
-                            $('#attendingDiv').prepend(templateAttendingEvent(profile));
-                        });
-                    })
-                    .catch(function(err){
-                        console.log(err);
-                    });
-                fetchHostingEventsById(data._id)
-                    .then(function(res) {
-                        res.forEach((profile) => {
-                            $('#hostingDiv').prepend(templateAttendingEvent(profile));
-                        });
-                    })
-                    .catch(function(err){
-                        console.log(err);
-                    });
-                fetchFollowedFriends(data._id)
-                    .then(function(res) {
-                        //console.log(res);
-                        res.forEach((profile) => {
-                            $('#profilesDiv').prepend(templateOtherProfiles(profile));
-                        });
-                    })
-                    .catch(function(err){
-                        console.log(err);
-                    });
-                    return data;
-           }
-         // check if there's _id in url and if there is, display given profile instead of the logged one
-         const profileId = getUrlParameter('_id');
-         if (profileId) {
-         
-            fetchProfileById(profileId).then(putProfileToDivs)
-               .catch(function(err){
-                   console.log(err);
-               });
-            
-            fetchCurrentProfile()
-                .then(function(user) {
-                    
-                    if (user.following.includes(profileId)) {
-                        $('#unfollowProfile').show();
-                    } else {
-                        $('#followProfile').show();
-                    }
-                })
-                .catch(function(err) {
-                    console.log(err);
-                });
-
-            $('#followProfile').on('click', function() {
-                // id taken from url
-                followProfile(profileId)
-                    .then(function(result) {
-                        $('#unfollowProfile').show();
-                        $('#followProfile').hide();
-                    })
-                    .catch(function(err) {
-                        console.log(err);
-                    });
-            });
-         
-             // id taken from url
-             $('#unfollowProfile').on('click', function() {
-                 unfollowProfile(profileId)
-                     .then(function(result) {
-                         console.log(result);
-                        $('#unfollowProfile').hide();
-                        $('#followProfile').show();
-                     })
-                     .catch(function(err) {
-                         console.log(err);
-                     });
-             });
-           } else {
-             fetchCurrentProfile().then(putProfileToDivs)
-               .catch(function(err){
-                   console.log(err);
-               });
-           }
-         
-            
-        
-         
-      </script>
+      <script src="js/profile.js"></script>
    </body>
 </html>

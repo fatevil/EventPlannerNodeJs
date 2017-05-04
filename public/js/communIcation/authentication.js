@@ -52,6 +52,7 @@ const login = function(formData) {
         return data.json();
     }).then(function(data) {
         saveToken(data.token);
+        return data;
     });
 };
 

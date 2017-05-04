@@ -1,129 +1,124 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Event planner</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="/stylesheets/create_event.css">
-</head>
-
-<body>
-  <div class="navbar navbar-default">
-    <div class="container">
-      <div id="navbar-main">
-        <ul class="nav navbar-nav">
-          <li><a href="/">Home</a></li>
-          <li><a href="/events.html">Events</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="/login.html">Sign in</a></li>
-          <li><a href="/profile.html"></a></li>
-        </ul>
+   <head>
+      <title>Event planner</title>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <link rel="stylesheet" href="/stylesheets/create_event.css">
+   </head>
+   <body>
+      <div class="navbar navbar-default">
+         <div class="container">
+            <div id="navbar-main">
+               <ul class="nav navbar-nav">
+                  <li><a href="/profile.html">Home</a></li>
+                  <li><a href="/events_feed.html">Events</a></li>
+                  <li><a href="/create_event_new.html">Create Event</a></li>
+               </ul>
+               <ul class="nav navbar-nav navbar-right">
+                  <li><a href="/profile.html" id="currentUserLink"></a></li>
+                  <li><a href="#" id="logoutLink">Logout</a></li>
+               </ul>
+            </div>
+         </div>
       </div>
-    </div>
-  </div>
-
-  <div class="container">
-      <div class="row">
-        <h1 class="form-signin-heading">Create Event</h1>
-        <hr>
-          <div class="form-group">
-            <label for="inputTitle">Title</label>
-            <input id="inputTitle" type="text" class="form-control" name="title" placeholder="Enter title">
-          </div>
-          <div hidden class="alert alert-danger" role="alert" id="alertTitle">
-            <strong>Warning! </strong>Title required!
-          </div>
-          <div class="form-group">
-            <label for="inputPrice">Price</label>
-            <input id="inputPrice" type="text" class="form-control" name="price" placeholder="Enter price">
-          </div>
-          <div class="form-group">
-            <label for="inputCategory">Category</label>
-            <input id="inputCategory" type="text" class="form-control" name="category" placeholder="Enter category">
-          </div>
-          <div class="row">
-          <label class="control-label col-sm-12" for="registration-date">Date:</label>
-          <div class="form-group registration-date col-sm-1">
-            <div class="input-group registration-date-time">
-              <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
-              <input class="form-control" name="registration_date" id="registration-date" type="date">
-              <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></span>
-              <input class="form-control" name="registration_time" id="registration-time" type="time">
-              <span class="input-group-btn">
-                  <button class="btn btn-default" type="button" onclick="addNow()"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Now</button>
-                  </span>
-              </div>
+      <div class="container">
+         <div class="row">
+            <h1 class="form-signin-heading">Create Event</h1>
+            <hr>
+            <div class="form-group">
+               <label for="inputTitle">Title</label>
+               <input id="inputTitle" type="text" class="form-control" name="title" placeholder="Enter title">
             </div>
-          </div>
-          <div class="pac-card" id="pac-card">
-          <div>
-            <div id="title">
-              Autocomplete search
+            <div hidden class="alert alert-danger" role="alert" id="alertTitle">
+               <strong>Warning! </strong>Title required!
             </div>
-            <div id="type-selector" class="pac-controls">
-              <input type="radio" name="type" id="changetype-all" checked="checked">
-              <label for="changetype-all">All</label>
-
-              <input type="radio" name="type" id="changetype-establishment">
-              <label for="changetype-establishment">Establishments</label>
-
-              <input type="radio" name="type" id="changetype-address">
-              <label for="changetype-address">Addresses</label>
-
-              <input type="radio" name="type" id="changetype-geocode">
-              <label for="changetype-geocode">Geocodes</label>
+            <div class="form-group">
+               <label for="inputPrice">Price</label>
+               <input id="inputPrice" type="text" class="form-control" name="price" placeholder="Enter price">
             </div>
-            <div id="strict-bounds-selector" class="pac-controls">
-              <input type="checkbox" id="use-strict-bounds" value="">
-              <label for="use-strict-bounds">Strict Bounds</label>
+            <div class="form-group">
+               <label for="inputCategory">Category</label>
+               <input id="inputCategory" type="text" class="form-control" name="category" placeholder="Enter category">
             </div>
-          </div>
-          <div id="pac-container">
-            <input id="pac-input" type="text" placeholder="Enter a location">
-          </div>
-        </div>
-        <div id="map"></div>
-        <div id="infowindow-content">
-          <img src="" width="16" height="16" id="place-icon">
-          <span id="place-name"  class="title"></span><br>
-          <span id="place-address"></span>
-        </div>
-        <br>
-        <div hidden class="alert alert-danger" role="alert" id="alertLocation">
-          <strong>Warning! </strong>Location required!
-        </div>
-          <div class="form-group">
-            <label for="inputQuickDescription">Quick description</label>
-            <input  id="inputQuickDescription" type="text" class="form-control" name="quickDescription" placeholder="Enter quick description">
-          </div>
-          <div class="form-group">
-            <label for="comment">Description:</label>
-            <textarea class="form-control" rows="5" id="inputDescription"></textarea>
-          </div>
-          <div class="form-group">
-              <label for="imageInput">Image</label>
-              <input id="imageInput" type="file" class="form-control-file" name="image">
-          </div>
-          <div hidden class="alert alert-danger" role="alert" id="alertImage">
-            <strong>Warning! </strong>Image required!
-          </div>
-        <form  class="form-horizontal">
-                <button id="createEventSubmit" type="submit" class="btn btn-primary">Submit</button>
-        </form>
+            <div class="row">
+               <label class="control-label col-sm-12" for="registration-date">Date:</label>
+               <div class="form-group registration-date col-sm-1">
+                  <div class="input-group registration-date-time">
+                     <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                     <input class="form-control" name="registration_date" id="registration-date" type="date">
+                     <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></span>
+                     <input class="form-control" name="registration_time" id="registration-time" type="time">
+                     <span class="input-group-btn">
+                     <button class="btn btn-default" type="button" onclick="addNow()"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Now</button>
+                     </span>
+                  </div>
+               </div>
+            </div>
+            <div class="pac-card" id="pac-card">
+               <div>
+                  <div id="title">
+                     Autocomplete search
+                  </div>
+                  <div id="type-selector" class="pac-controls">
+                     <input type="radio" name="type" id="changetype-all" checked="checked">
+                     <label for="changetype-all">All</label>
+                     <input type="radio" name="type" id="changetype-establishment">
+                     <label for="changetype-establishment">Establishments</label>
+                     <input type="radio" name="type" id="changetype-address">
+                     <label for="changetype-address">Addresses</label>
+                     <input type="radio" name="type" id="changetype-geocode">
+                     <label for="changetype-geocode">Geocodes</label>
+                  </div>
+                  <div id="strict-bounds-selector" class="pac-controls">
+                     <input type="checkbox" id="use-strict-bounds" value="">
+                     <label for="use-strict-bounds">Strict Bounds</label>
+                  </div>
+               </div>
+               <div id="pac-container">
+                  <input id="pac-input" type="text" placeholder="Enter a location">
+               </div>
+            </div>
+            <div id="map"></div>
+            <div id="infowindow-content">
+               <img src="" width="16" height="16" id="place-icon">
+               <span id="place-name"  class="title"></span><br>
+               <span id="place-address"></span>
+            </div>
+            <br>
+            <div hidden class="alert alert-danger" role="alert" id="alertLocation">
+               <strong>Warning! </strong>Location required!
+            </div>
+            <div class="form-group">
+               <label for="inputQuickDescription">Quick description</label>
+               <input  id="inputQuickDescription" type="text" class="form-control" name="quickDescription" placeholder="Enter quick description">
+            </div>
+            <div class="form-group">
+               <label for="comment">Description:</label>
+               <textarea class="form-control" rows="5" id="inputDescription"></textarea>
+            </div>
+            <div class="form-group">
+               <label for="imageInput">Image</label>
+               <input id="imageInput" type="file" class="form-control-file" name="image">
+            </div>
+            <div hidden class="alert alert-danger" role="alert" id="alertImage">
+               <strong>Warning! </strong>Image required!
+            </div>
+            <form  class="form-horizontal">
+               <button id="createEventSubmit" type="submit" class="btn btn-primary">Submit</button>
+            </form>
+         </div>
       </div>
-      </div> 
-  </div>
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script src="js/authentication.js"></script>
-  <script src="js/common.js"></script>
-  <script src="js/events.js"></script>
-  <script src="js/profiles.js"></script>
-  <script src="http://momentjs.com/downloads/moment-with-locales.js"></script>
-  <script src="http://momentjs.com/downloads/moment-timezone-with-data.js"></script>
-  <script src="js/events/event-create.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvkp-hH2o_yI7V6rintnrmqZ_uwOZQEpE&libraries=places&callback=initMap" async defer></script>
-</body>
+      </div>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+      <script src="js/communication/authentication.js"></script>
+      <script src="js/common.js"></script>
+      <script src="js/communication/profiles.js"></script>
+      <script src="js/communication/events.js"></script>
+      <script src="http://momentjs.com/downloads/moment-with-locales.js"></script>
+      <script src="http://momentjs.com/downloads/moment-timezone-with-data.js"></script>
+      <script src="js/events/event-create.js"></script>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvkp-hH2o_yI7V6rintnrmqZ_uwOZQEpE&libraries=places&callback=initMap" async defer></script>
+   </body>
 </html>
