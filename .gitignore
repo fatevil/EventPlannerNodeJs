@@ -31,3 +31,4 @@ node_modules
 
 app_client
 public/images/
+.env
