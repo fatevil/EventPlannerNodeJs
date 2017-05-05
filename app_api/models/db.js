@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const gracefulShutdown;
+let gracefulShutdown;
 const dbURI = 'mongodb://localhost/meanAuth';
 if (process.env.NODE_ENV === 'production') {
     dbURI = process.env.MONGOLAB_URI;

@@ -37,7 +37,6 @@ router.get('/event/:id/attend', auth, ctrlEvent.attendEvent);
 router.get('/event/:id/unattend', auth, ctrlEvent.unattendEvent);
 
 
-
 // authentication
 router.post('/register', upload.single('image'), ctrlAuth.register);
 router.post('/login', upload.array(), ctrlAuth.login);
