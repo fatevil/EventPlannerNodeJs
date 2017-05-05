@@ -28,14 +28,13 @@ router.get('/profile/:id/unfollow', auth, ctrlProfile.unfollowProfile);
 // events
 router.get('/events', auth, ctrlEvent.allEvents);
 router.get('/events/upcoming', auth, ctrlEvent.upcomingEvents);
-router.get('/events/:id/attending', auth, ctrlEvent.getPeopleWhoAttend);
 router.get('/events/friends', auth, ctrlEvent.friendsEvents);
 router.get('/events/byLocation', auth, ctrlEvent.eventsByLocation);
 router.post('/events', upload.single('image'), auth, ctrlEvent.createEvent);
 router.get('/event/:id', auth, ctrlEvent.getEvent);
 router.get('/event/:id/attend', auth, ctrlEvent.attendEvent);
 router.get('/event/:id/unattend', auth, ctrlEvent.unattendEvent);
-
+router.get('/events/:id/attending', auth, ctrlEvent.getPeopleWhoAttend);
 
 // authentication
 router.post('/register', upload.single('image'), ctrlAuth.register);
