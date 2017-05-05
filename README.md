@@ -46,6 +46,7 @@ Flaws and future resolutions:
 		- security flaw
 		- network overload
 	- update users and events
+	- API docs
 	- more individual configuration possibilities
 		- .end only has port config
 	- JWT token authorization string should be hidden from git
