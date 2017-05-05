@@ -4,37 +4,69 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('MEAN-stack-authentication:server');
-var http = require('http');
+const app = require('../app');
+const debug = require('debug')('EventPlanner:server');
+const http = require('http');
+const https = require('https');
+const fs = require('fs');
+
+/**
+ * SSL certificates.
+ */
+
+const sslkey = fs.readFileSync('ssl-key.pem');
+const sslcert = fs.readFileSync('ssl-cert.pem')
+
+/**
+ * HTTPs server certificate options.
+ */
+
+const options = {
+    key: sslkey,
+    cert: sslcert,
+};
+
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
+const httpPort = normalizePort(process.env.HTTP_PORT || '3000');
+const httpsPort = normalizePort(process.env.HTTPS_PORT || '8000');
+app.set('port', httpsPort);
 
 /**
- * Create HTTP server.
+ * Create HTTP server which only redirects to https.
  */
 
-var server = http.createServer(app);
+const httpServer = http.createServer((req, res) => {
+    res.writeHead(301, {
+        'Location': 'https://localhost:8000' + req.url
+    });
+    res.end();
+});
+
+/**
+ * Create HTTPS server.
+ */
+
+const httpsServer = https.createServer(options, app);
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+httpServer.listen(httpPort);
+httpsServer.listen(httpsPort);
+httpsServer.on('error', onError);
+httpsServer.on('listening', onListening);
 
 /**
  * Normalize a port into a number, string, or false.
  */
 
 function normalizePort(val) {
-    var port = parseInt(val, 10);
+    const port = parseInt(val, 10);
 
     if (isNaN(port)) {
         // named pipe
@@ -58,9 +90,9 @@ function onError(error) {
         throw error;
     }
 
-    var bind = typeof port === 'string' ?
-        'Pipe ' + port :
-        'Port ' + port
+    const bind = typeof httpsPort === 'string' ?
+        'Pipe ' + httpsPort :
+        'Port ' + httpsPort
 
     // handle specific listen errors with friendly messages
     switch (error.code) {
@@ -82,8 +114,8 @@ function onError(error) {
  */
 
 function onListening() {
-    var addr = server.address();
-    var bind = typeof addr === 'string' ?
+    const addr = httpsServer.address();
+    const bind = typeof addr === 'string' ?
         'pipe ' + addr :
         'port ' + addr.port;
     debug('Listening on ' + bind);
