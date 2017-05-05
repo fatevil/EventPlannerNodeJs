@@ -28,7 +28,7 @@ const options = {
 
 
 /**
- * Get port from environment and store in Express.
+ * Get ports from environment and store in Express.
  */
 
 const httpPort = normalizePort(process.env.HTTP_PORT || '3000');
