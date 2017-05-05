@@ -1,15 +1,15 @@
 const saveToken = function(token) {
-    window.localStorage['mean-token'] = token;
+    window.localStorage['authentication-token'] = token;
 };
 
 const getToken = function() {
-    return window.localStorage['mean-token'];
+    return window.localStorage['authentication-token'];
 };
 
 const isLoggedIn = function() {
     const token = getToken();
     let payload;
-    if (token !== 'undefined') {
+    if (token != undefined && token !== 'undefined') {
         payload = token.split('.')[1];
         payload = window.atob(payload);
         payload = JSON.parse(payload);
@@ -57,5 +57,5 @@ const login = function(formData) {
 };
 
 const logout = function() {
-    window.localStorage.removeItem('mean-token');
+    window.localStorage.removeItem('authentication-token');
 };

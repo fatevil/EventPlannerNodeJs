@@ -1,8 +1,6 @@
-if (!getToken()) {
-    logout();
+if (!isLoggedIn()) {
     window.location.href = "/index.html";
 }
-
 
 // current user name in the navbar
 $('#currentUserLink').text(currentUser().name);
