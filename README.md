@@ -11,7 +11,6 @@ Features:
 			- see where followed people go
 			- attending events 
 			- all events
-			- all upcoming events
 			- hosted events
 		- attend / unattend events
 		- see other users and their events
